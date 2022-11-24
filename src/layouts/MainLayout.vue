@@ -38,7 +38,7 @@
             <q-list padding>
               <q-item
                 active-class="tab-active"
-                to="/"
+                :to="{ name: 'dashboard' }"
                 exact
                 class="q-ma-sm navigation-item"
                 clickable
@@ -47,7 +47,6 @@
                 <q-item-section avatar>
                   <q-icon name="dashboard" />
                 </q-item-section>
-
                 <q-item-section>
                   Dashboard
                 </q-item-section>
@@ -55,7 +54,68 @@
 
               <q-item
                 active-class="tab-active"
-                to="/Map"
+                :to="{ name: 'order' }"
+                exact
+                class="q-ma-sm navigation-item"
+                clickable
+                v-ripple
+              >
+                <q-item-section avatar>
+                  <q-icon name="toc" />
+                </q-item-section>
+                <q-item-section>
+                  Pesanan
+                </q-item-section>
+              </q-item>
+              <q-item
+                active-class="tab-active"
+                :to="{ name: 'vehicle' }"
+                exact
+                class="q-ma-sm navigation-item"
+                clickable
+                v-ripple
+              >
+                <q-item-section avatar>
+                  <q-icon name="directions_car" />
+                </q-item-section>
+                <q-item-section>
+                  Kendaraan
+                </q-item-section>
+              </q-item>
+              <q-item
+                active-class="tab-active"
+                :to="{name: 'driver'}"
+                exact
+                class="q-ma-sm navigation-item"
+                clickable
+                v-ripple
+              >
+                <q-item-section avatar>
+                  <q-icon name="settings_accessibility" />
+                </q-item-section>
+                <q-item-section>
+                  Pengemudi
+                </q-item-section>
+              </q-item>
+              <q-item
+                active-class="tab-active"
+                :to="{ name: 'schedule' }"
+                exact
+                class="q-ma-sm navigation-item"
+                clickable
+                v-ripple
+              >
+                <q-item-section avatar>
+                  <q-icon name="free_cancellation" />
+                </q-item-section>
+                <q-item-section>
+                  Jadwal
+                </q-item-section>
+              </q-item>
+
+              <q-item
+                active-class="tab-active"
+                :to="{ name: 'map' }"
                 class="q-ma-sm navigation-item"
                 clickable
                 v-ripple
@@ -63,7 +123,6 @@
                 <q-item-section avatar>
                   <q-icon name="map" />
                 </q-item-section>
-
                 <q-item-section>
                   Map
                 </q-item-section>
@@ -71,7 +130,22 @@
 
               <q-item
                 active-class="tab-active"
-                to="/Login"
+                :to="{ name: 'profil' }"
+                class="q-ma-sm navigation-item"
+                clickable
+                v-ripple
+              >
+                <q-item-section avatar>
+                  <q-icon name="map" />
+                </q-item-section>
+                <q-item-section>
+                  Profil
+                </q-item-section>
+              </q-item>
+
+              <q-item
+                active-class="tab-active"
+                :to="{ name: 'login' }"
                 class="q-ma-sm navigation-item"
                 clickable
                 v-ripple
@@ -79,11 +153,11 @@
                 <q-item-section avatar>
                   <q-icon name="logout" />
                 </q-item-section>
-
                 <q-item-section>
                   Logout
                 </q-item-section>
               </q-item>
+
             </q-list>
           </q-scroll-area>
         </div>

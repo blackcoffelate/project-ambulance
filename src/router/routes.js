@@ -4,15 +4,20 @@ const routes = [
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/IndexPage.vue') },
-      { path: 'Map', component: () => import('src/pages/Map.vue') }
+      { path: '', name: 'dashboard', component: () => import('pages/IndexPage.vue') },
+      { path: 'Map', name: 'map', component: () => import('pages/Map.vue') },
+      { path: 'Drivers', name: 'driver', component: () => import('pages/Drivers.vue') },
+      { path: 'Order', name: 'order', component: () => import('pages/Order.vue') },
+      { path: 'Vehicle', name: 'vehicle', component: () => import('pages/Vehicle.vue') },
+      { path: 'Schedule', name: 'schedule', component: () => import('pages/Schedule.vue') },
+      { path: 'Profile', name: 'profil', component: () => import('pages/Profile.vue') }
     ]
   },
   {
     path: '/',
     component: () => import('pages/Acces/Login.vue'),
     children: [
-      { path: 'Login', component: () => import('pages/Acces/Login.vue') }
+      { path: 'Login', name: 'login', component: () => import('pages/Acces/Login.vue') }
     ]
   },
 

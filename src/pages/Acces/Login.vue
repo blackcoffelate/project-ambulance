@@ -32,18 +32,19 @@
             </q-avatar>
             <div class="row no-wrap items-center">
               <div class="col text-h6 ellipsis">
-                Log in to Dashboard
+                Selamat Datang di
+                <div>Blict Ambulance</div>
               </div>
             </div>
           </q-card-section>
           <q-card-section>
             <q-form class="q-gutter-md">
-              <q-input filled v-model="username" label="Username" lazy-rules />
+              <q-input filled v-model="EMAIL" label="Email" lazy-rules />
 
               <q-input
-                type="password"
+                type=""
                 filled
-                v-model="password"
+                v-model="PASSWORD"
                 label="Password"
                 lazy-rules
               />
@@ -54,7 +55,6 @@
                   type="button"
                   color="primary"
                   @click="loginNotify"
-                  to="/"
                 />
               </div>
             </q-form>
@@ -70,31 +70,33 @@
   export default {
     data() {
       return {
-        username: '',
-        password: ''
+        EMAIL: null,
+        PASSWORD: null
       }
     },
     methods: {
-      async getcsrf(){
-        await this.$axios.get()
-        .then((response)=>{
-        })
-      },
       async loginNotify() {
-        // await this.$axios.post('api/login', {'email':this.username, 'password':this.password})
-        await this.$axios.post()
-        .then((response)=>{
-          if (response.data.status=='ok'){
-            this.$router.push('cashin')
+        await this.$axios.post('http://192.168.43.172:5050/users/login', {
+          EMAIL: this.EMAIL,
+          PASSWORD: this.PASSWORD
+        })
+        .then((res)=>{
+          console.log(res);
+          if (res.data.status === true){
+            this.$router.push('/')
+            this.$q.notify({
+              message: 'Berhasil login'
+            })
+          } else {
+            this.$q.notify({
+              color: "",
+              message: 'username atau password anda salah'
+            })
           }
-          this.$q.notify({
-            message: 'Login Successful',
-          })
         })
       }
     },
     mounted() {
-      this.getcsrf()
       particlesJS("particles-js", {
         "particles": {
           "number": {

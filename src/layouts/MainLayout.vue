@@ -10,6 +10,24 @@
           aria-label="Menu"
           @click="leftDrawerOpen = !leftDrawerOpen"
         />
+        <q-space/>
+        <div class="q-gutter-sm row items-center no-wrap">
+          <q-btn round dense flat color="white" icon="notifications">
+            <q-badge color="red" text-color="white" floating>
+              5
+            </q-badge>
+            <q-menu
+            >
+              <q-list style="min-width: 100px">
+                <messages></messages>
+                <q-card class="text-center no-shadow no-border">
+                  <q-btn label="View All" style="max-width: 120px !important;" flat dense
+                    class="text-indigo-8"></q-btn>
+                </q-card>
+              </q-list>
+            </q-menu>
+          </q-btn>
+        </div>
       </q-toolbar>
     </q-header>
 
@@ -25,14 +43,15 @@
         class="full-height"
         :class="$q.dark.isActive ? 'drawer_dark' : 'drawer_normal'"
       >
-        <div style="height: calc(100% - 117px);padding:10px;">
+        <div style="height: calc(100% - 117px);padding:10px; align-items: center;">
           <q-toolbar>
             <q-avatar>
               <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
             </q-avatar>
 
-            <q-toolbar-title>Gunawan</q-toolbar-title>
+            <q-toolbar-title>Administrator</q-toolbar-title>
           </q-toolbar>
+          <div class="text-center">{{dataUser.user.username}}</div>
           <hr />
           <q-scroll-area style="height:100%;">
             <q-list padding>
@@ -124,7 +143,7 @@
                   <q-icon name="map" />
                 </q-item-section>
                 <q-item-section>
-                  Map
+                  Peta
                 </q-item-section>
               </q-item>
 
@@ -136,7 +155,7 @@
                 v-ripple
               >
                 <q-item-section avatar>
-                  <q-icon name="map" />
+                  <q-icon name="manage_accounts" />
                 </q-item-section>
                 <q-item-section>
                   Profil
@@ -171,14 +190,16 @@
 </template>
 
 <script>
-
+import Messages from './Messages'
 export default ({
   name: 'MainLayout',
   components: {
+    Messages
   },
   data () {
     return {
-      leftDrawerOpen: false
+      leftDrawerOpen: false,
+      dataUser: this.$q.localStorage.getItem('dataUser')
     }
   }
 })

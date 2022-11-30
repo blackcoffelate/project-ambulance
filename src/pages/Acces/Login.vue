@@ -18,33 +18,26 @@
         <q-card
           class="login-form"
           v-bind:style="
-            $q.platform.is.mobile ? { width: '80%' } : { width: '30%' }
+            $q.platform.is.mobile ? { width: '80%' } : { width: '35%' }
           "
         >
-          <q-img src="https://img.freepik.com/free-vector/emergency-ambulance-concept_23-2148543900.jpg?w=740&t=st=1668765184~exp=1668765784~hmac=469e2472b4619cb8e6b025cb2a394606f8aefcdfe1805353213ce440335b13b7" height="300px"></q-img>
+        <q-img src="~assets/ambulance.jpg" height="260px"></q-img>
           <q-card-section>
-            <q-avatar
-              size="74px"
-              class="absolute"
-              style="top: 0;right: 25px;transform: translateY(-50%);"
-            >
-              <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
-            </q-avatar>
             <div class="row no-wrap items-center">
               <div class="col text-h6 ellipsis">
                 Selamat Datang di
-                <div>Blict Ambulance</div>
+                <div>Blits Ambulance</div>
               </div>
             </div>
           </q-card-section>
           <q-card-section>
             <q-form class="q-gutter-md">
-              <q-input filled v-model="EMAIL" label="Email" lazy-rules />
+              <q-input filled v-model="email" label="Email" lazy-rules />
 
               <q-input
                 type=""
                 filled
-                v-model="PASSWORD"
+                v-model="password"
                 label="Password"
                 lazy-rules
               />
@@ -70,21 +63,23 @@
   export default {
     data() {
       return {
-        EMAIL: null,
-        PASSWORD: null
+        email: null,
+        password: null
       }
     },
     methods: {
       async loginNotify() {
         await this.$axios.post('http://192.168.43.172:5050/users/login', {
-          EMAIL: this.EMAIL,
-          PASSWORD: this.PASSWORD
+          email: this.email,
+          password: this.password
         })
         .then((res)=>{
           console.log(res);
           if (res.data.status === true){
+            this.$q.localStorage.set('dataUser', res.data.data)
             this.$router.push('/')
             this.$q.notify({
+              color: 'green',
               message: 'Berhasil login'
             })
           } else {

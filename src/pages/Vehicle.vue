@@ -43,7 +43,7 @@
             @click="exportTable"
           />
         </template>
-        <template v-slot:body-cell-status="props">
+        <!-- <template v-slot:body-cell-status="props">
           <q-td :props="props">
             <q-chip
               :color="(props.row.status == 'Selesai')?'green'
@@ -57,7 +57,7 @@
             >{{props.row.status}}
             </q-chip>
           </q-td>
-        </template>
+        </template> -->
       </q-table>
     </q-card>
     <q-dialog v-model="new_customer">
@@ -74,14 +74,14 @@
             <q-list>
               <q-item>
                 <q-item-section>
-                  <q-item-label class="q-pb-xs">Plat ID</q-item-label>
-                  <q-input dense outlined v-model="plat_id" label="Plat ID"/>
+                  <q-item-label class="q-pb-xs">No Plat</q-item-label>
+                  <q-input dense outlined v-model="plat_id" label="No Plat"/>
                 </q-item-section>
               </q-item>
               <q-item>
                 <q-item-section>
-                  <q-item-label class="q-pb-xs">Nama PO</q-item-label>
-                  <q-input dense outlined v-model="nama_po" label="Nama PO"/>
+                  <q-item-label class="q-pb-xs">Nama Instansi</q-item-label>
+                  <q-input dense outlined v-model="nama_po" label="Nama Instansi"/>
                 </q-item-section>
               </q-item>
               <q-item>
@@ -96,24 +96,12 @@
                   <q-input dense outlined v-model="no_gps" label="No GPS"/>
                 </q-item-section>
               </q-item>
-              <q-item>
-                <q-item-section>
-                  <q-item-label class="q-pb-xs">KM</q-item-label>
-                  <q-input dense outlined v-model="km" label="KM"/>
-                </q-item-section>
-              </q-item>
-              <q-item>
-                <q-item-section>
-                  <q-item-label class="q-pb-xs">Trayek</q-item-label>
-                  <q-input dense outlined v-model="trayek" label="Trayek"/>
-                </q-item-section>
-              </q-item>
             </q-list>
           </q-form>
         </q-card-section>
 
         <q-card-actions align="right" class="text-teal">
-          <q-btn label="Save" type="submit" color="primary" v-close-popup/>
+          <q-btn label="Simpan" type="submit" color="green" v-close-popup/>
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -122,7 +110,6 @@
 
 <script>
 import { exportFile } from 'quasar'
-import { axios } from 'axios'
 
 function wrapCsvValue (val, formatFn) {
   let formatted = formatFn !== void 0 ? formatFn(val) : val
@@ -138,105 +125,47 @@ const columns = [
   {
     name: 'plat_id',
     align: 'left',
-    label: 'Plat ID',
+    label: 'No Plat',
     field: 'plat_id',
     sortable: true
   },
   {
-    name: 'nama_po',
+    name: 'name',
     required: true,
-    label: 'Nama PO',
+    label: 'Nama Instansi',
     align: 'left',
-    field: row => row.nama_po,
+    field: row => row.name,
     sortable: true
   },
   {
-    name: 'imei_gps',
+    name: 'device_id',
     align: 'left',
     label: 'Imei GPS',
-    field: 'imei_gps',
+    field: 'device_id',
     sortable: true
   },
   {
-    name: 'no_gps',
+    name: 'device_phone_number',
     align: 'left',
     label: 'No GPS',
-    field: 'no_gps',
-    sortable: true
-  },
-  {
-    name: 'km',
-    align: 'left',
-    label: 'KM',
-    field: 'km',
-    sortable: true
-  },
-  {
-    name: 'trayek',
-    align: 'left',
-    label: 'Trayek',
-    field: 'trayek',
+    field: 'device_phone_number',
     sortable: true
   }
 ]
 
-const data = [
-  {
-    plat_id: 'D 1948 AY',
-    nama_po: 'KOPAMAS',
-    imei_gps: '353327023124720',
-    no_gps: '089517874244',
-    km: '52271.652',
-    trayek: 'Posko - UBL'
-  },
-  {
-    plat_id: 'D 1948 AY',
-    nama_po: 'AMBULAN',
-    imei_gps: '353327023124720',
-    no_gps: '089517874244',
-    km: '52271.652',
-    trayek: 'Posko - UBL'
-  },
-  {
-    plat_id: 'D 1948 AY',
-    nama_po: 'AMBULAN',
-    imei_gps: '353327023124720',
-    no_gps: '089517874244',
-    km: '52271.652',
-    trayek: 'Posko - UBL'
-  },
-  {
-    plat_id: 'D 1948 AY',
-    nama_po: 'AMBULAN',
-    imei_gps: '353327023124720',
-    no_gps: '089517874244',
-    km: '52271.652',
-    trayek: 'Posko - UBL'
-  },
-  {
-    plat_id: 'D 1948 AY',
-    nama_po: 'AMBULAN',
-    imei_gps: '353327023124720',
-    no_gps: '089517874244',
-    km: '52271.652',
-    trayek: 'Posko - UBL'
-  },
-  {
-    plat_id: 'D 1948 AY',
-    nama_po: 'AMBULAN',
-    imei_gps: '353327023124720',
-    no_gps: '089517874244',
-    km: '52271.652',
-    trayek: 'Posko - UBL'
-  }
-]
+const data = []
 
 export default {
   data () {
     return {
+      plat_id: '',
+      name: '',
+      device_id: '',
+      device_phone_number: '',
       columns,
       data,
       filter: '',
+      guid_po: '2bfab8ff-304e-42e9-b200-9fb9140f0432',
       customer: {},
       new_customer: false,
       mode: 'list',
@@ -245,21 +174,41 @@ export default {
       }
     }
   },
-  // created () {
-  //   this.getKendaraan()
-  // },
+  created () {
+    this.getKendaraan()
+  },
   methods: {
     getKendaraan () {
-      const config = {
-        method: 'POST',
-        url: 'https://api-kopamas-carter.pptik.id:5121/api.v1/vehicles/po-get',
-        headers: { 'x-acces-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJndWlkIjoiNzNhZjk3YjQtNTllZC00MGFmLWJlZTQtOTM4MzhmMzlhNGYzIiwiaWF0IjoxNjY5MTA3MDIyLCJleHAiOjE4MjY3ODcwMjJ9.4x6F8nQyDiMaiARRMOpIV2YkbPrS4iKEEf3Qtm0SjDY' }
-      }
-      axios(config)
-        .then(res => {
+      this.$axios.post('https://api-kopamas-carter.pptik.id:5121/api.v1/vehicles/po-get', {
+        guid_po: this.guid_po
+      }, {
+        headers: {
+          'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJndWlkIjoiNzNhZjk3YjQtNTllZC00MGFmLWJlZTQtOTM4MzhmMzlhNGYzIiwiaWF0IjoxNjY5MTA3MDIyLCJleHAiOjE4MjY3ODcwMjJ9.4x6F8nQyDiMaiARRMOpIV2YkbPrS4iKEEf3Qtm0SjDY'
+        }
+      })
+        .then((res) => {
           console.log(res)
-          this.data = res.data.data
+          if (res.data.status === true) {
+            this.data = res.data.data
+          } else {
+            this.$.notify({
+              color: 'negative',
+              message: 'data tidak dapat dimuat'
+            })
+          }
         })
+    },
+    createKendaraan () {
+      this.$axios.post('', {
+        plat_id: this.plat_id,
+        name: this.name,
+        device_id: this.device_id,
+        device_phone_number: this.device_phone_number
+      }
+        .then((res) => {
+          console.log(res)
+        })
+      )
     },
     exportTable () {
       // naive encoding to csv format

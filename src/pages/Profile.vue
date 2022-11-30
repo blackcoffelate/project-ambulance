@@ -6,10 +6,12 @@
         <q-card class="my-card" flat bordered>
           <q-card-section horizontal>
             <q-card-section class="q-pt-xs">
-              <div class="text-overline">US Region</div>
-              <div class="text-h5 q-mt-sm q-mb-xs">Mayank Patel</div>
+              <div class="text-overline">
+                Blits Ambulance
+              </div>
+              <div class="text-h5 q-mt-sm q-mb-xs">{{dataUser.user.username}}</div>
               <div class="text-caption text-grey">
-                Sales and Marketing Executive | Graduate and past committee | Keynote speaker on Selling and Recruiting
+                Administrator Blits Ambulance | Graduate and past committee | Keynote speaker on Selling and Recruiting
                 Topics
               </div>
             </q-card-section>
@@ -37,40 +39,24 @@
             >
               <q-input
                 filled
-                v-model="user.first_name"
-                label="First Name"
+                v-model="user.NAMA"
+                label="Nama"
               />
 
               <q-input
                 filled
-                v-model="user.last_name"
-                label="Last Name"
-
-              />
-
-              <q-input
-                filled
-                v-model="user.age"
-                label="Age"
-
-              />
-
-              <q-input
-                filled
-                v-model="user.email"
+                v-model="user.EMAIL"
                 label="Email"
-
               />
 
               <q-input
                 filled
-                v-model="user.phone"
-                label="Phone"
-
+                v-model="user.NO_TELPON"
+                label="No. Telpon"
               />
 
               <div>
-                <q-btn label="Update" type="submit" color="primary"/>
+                <q-btn label="Update" type="submit" color="green"/>
               </div>
             </q-form>
           </q-card-section>
@@ -84,12 +70,11 @@
 export default {
   data () {
     return {
+      dataUser: this.$q.localStorage.getItem('dataUser'),
       user: {
-        first_name: 'Mayank',
-        last_name: 'Patel',
-        age: 30,
-        email: 'm******@****.com',
-        phone: '98******23'
+        NAMA: 'Gunawan',
+        EMAIL: 'm******@****.com',
+        NO_TELPON: '98******23'
       }
     }
   }

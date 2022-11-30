@@ -13,8 +13,6 @@
         :pagination="pagination"
       >
         <template v-slot:top-right="props">
-          <q-btn @click="new_customer=true" outline color="primary" label="Add New" class="q-mr-xs"/>
-
           <q-input outlined dense debounce="300" v-model="filter" placeholder="Search">
             <template v-slot:append>
               <q-icon name="search"/>
@@ -44,74 +42,28 @@
             @click="exportTable"
           />
         </template>
-        <template v-slot:body-cell-status="props">
-          <q-td :props="props">
-            <q-chip
-              :color="(props.row.status == 'Selesai')?'green'
-              :(props.row.status == 'Tidak Aktif'?'red':'grey')
+        <template v-slot:body-cell-aksi="props">
+          <q-td key="action" :props="props">
+            <div class="justify-center q-gutter-x-xs">
+              <q-btn
+              :color="(props.row.aksi == 'Jemput')?'green'
+              :(props.row.aksi == 'selesai'?'red':'grey')
               "
-              text-color="white"
-              dense
-              class="text-weight-bolder"
-              square
-              style="width: 85px"
-            >{{props.row.status}}
-            </q-chip>
+                dense
+                class="q-px-xs"
+                @click="edit(props.row.GUID)"
+                label="Jemput"></q-btn>
+            </div>
           </q-td>
         </template>
       </q-table>
     </q-card>
-    <q-dialog v-model="new_customer">
-      <q-card style="width: 600px; max-width: 60vw;">
-        <q-card-section>
-          <div class="text-h6">
-            Add new change request
-            <q-btn round flat dense icon="close" class="float-right" color="grey-8" v-close-popup></q-btn>
-          </div>
-        </q-card-section>
-        <q-separator inset></q-separator>
-        <q-card-section class="q-pt-none">
-          <q-form class="q-gutter-md">
-            <q-list>
-              <q-item>
-                <q-item-section>
-                  <q-item-label class="q-pb-xs">Change Name</q-item-label>
-                  <q-input dense outlined v-model="customer.name" label="Change Name"/>
-                </q-item-section>
-              </q-item>
-              <q-item>
-                <q-item-section>
-                  <q-item-label class="q-pb-xs">Change Type</q-item-label>
-                  <q-input dense outlined v-model="customer.change_type" label="Change Type"/>
-                </q-item-section>
-              </q-item>
-              <q-item>
-                <q-item-section>
-                  <q-item-label class="q-pb-xs">New Address Information</q-item-label>
-                  <q-input dense outlined v-model="customer.new_address" label="New Address Information"/>
-                </q-item-section>
-              </q-item>
-              <q-item>
-                <q-item-section>
-                  <q-item-label class="q-pb-xs">Status</q-item-label>
-                  <q-input dense outlined v-model="customer.status" label="Status"/>
-                </q-item-section>
-              </q-item>
-            </q-list>
-          </q-form>
-        </q-card-section>
-
-        <q-card-actions align="right" class="text-teal">
-          <q-btn label="Save" type="submit" color="primary" v-close-popup/>
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
   </q-page>
 </template>
 
 <script>
 import { exportFile } from 'quasar'
-import { axios } from 'axios'
+// import { axios } from 'axios'
 
 function wrapCsvValue (val, formatFn) {
   let formatted = formatFn !== void 0 ? formatFn(val) : val
@@ -168,17 +120,58 @@ const columns = [
     sortable: true
   },
   {
-    name: 'status',
+    name: 'aksi',
     align: 'left',
     label: 'AKSI',
-    field: 'status',
+    field: 'aksi',
     sortable: true
   }
 ]
+const data = [
+  {
+    no_plat: '98766',
+    id_gps: '43245',
+    alamat_jemput: 'Posko',
+    alamat_tujuan: 'UBL',
+    tanggal: '24-11-2022 - 17:46',
+    status: 'jadwal masuk'
+  },
+  {
+    no_plat: '98766',
+    id_gps: '43245',
+    alamat_jemput: 'Posko',
+    alamat_tujuan: 'UBL',
+    tanggal: '24-11-2022 - 17:46',
+    status: 'driver mengantar'
+  },
+  {
+    no_plat: '98766',
+    id_gps: '43245',
+    alamat_jemput: 'Posko',
+    alamat_tujuan: 'UBL',
+    tanggal: '24-11-2022 - 17:46',
+    status: 'selesai'
+  },
+  {
+    no_plat: '98766',
+    id_gps: '43245',
+    alamat_jemput: 'Posko',
+    alamat_tujuan: 'UBL',
+    tanggal: '24-11-2022 - 17:46',
+    status: 'selesai'
+  },
+  {
+    no_plat: '98766',
+    id_gps: '43245',
+    alamat_jemput: 'Posko',
+    alamat_tujuan: 'UBL',
+    tanggal: '24-11-2022 - 17:46',
+    status: 'jadwal masuk'
+  }
+]
 
-const data = []
 export default {
-  setup () {
+  data () {
     return {
       columns,
       data,
@@ -220,17 +213,17 @@ export default {
           icon: 'warning'
         })
       }
-    },
-    dataTanaman () {
-      axios.post('https://api-kopamas-carter.pptik.id:5121/api.v1/vehicles/po-get')
-      // api.get('/tanaman/', createToken())
-        .then((res) => {
-          console.log(res)
-          this.data = res.data.data
-          // console.log(this.data)
-          // console.log(res.data.data.GUID)
-        })
     }
+    // dataTanaman () {
+    //   axios.post('https://api-kopamas-carter.pptik.id:5121/api.v1/vehicles/po-get')
+    //   // api.get('/tanaman/', createToken())
+    //     .then((res) => {
+    //       console.log(res)
+    //       this.data = res.data.data
+    //       // console.log(this.data)
+    //       // console.log(res.data.data.GUID)
+    //     })
+    // }
   }
 }
 </script>

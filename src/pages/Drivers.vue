@@ -11,9 +11,9 @@
         :grid="mode=='grid'"
         :filter="filter"
         :pagination="pagination"
-        >
+      >
         <template v-slot:top-right="props">
-
+          <q-btn @click="new_customer=true" outline color="primary bg-green text-white" label="Tambah Pengemudi" class="q-mr-xs"/>
           <q-input outlined dense debounce="300" v-model="filter" placeholder="Search">
             <template v-slot:append>
               <q-icon name="search"/>
@@ -45,25 +45,73 @@
         </template>
         <template v-slot:body-cell-status="props">
           <q-td :props="props">
-            <q-chip
-              :color="(props.row.status == 'Aktif')?'green'
-              :(props.row.status == 'Tidak Aktif'?'red':'grey')"
+            <q-btn
+              :color="(props.row.status == 'aktif')?'green'
+              :(props.row.status == 'sibuk'?'red':'grey')
+              "
               text-color="white"
               dense
               class="text-weight-bolder"
               square
-              style="width: 85px"
+              style="width: 95px"
             >{{props.row.status}}
-            </q-chip>
+            </q-btn>
           </q-td>
         </template>
       </q-table>
     </q-card>
+    <q-dialog v-model="new_customer">
+      <q-card style="width: 600px; max-width: 60vw;">
+        <q-card-section>
+          <div class="text-h6">
+            Tambah Baru Pengemudi
+            <q-btn round flat dense icon="close" class="float-right" color="grey-8" v-close-popup></q-btn>
+          </div>
+        </q-card-section>
+        <q-separator inset></q-separator>
+        <q-card-section class="q-pt-none">
+          <q-form class="q-gutter-md"
+          @submit="onsubmit">
+            <q-list>
+              <q-item>
+                <q-item-section>
+                  <q-item-label class="q-pb-xs">Instansi</q-item-label>
+                  <q-input dense outlined v-model="instansi" label="Nama Instansi"/>
+                </q-item-section>
+              </q-item>
+              <q-item>
+                <q-item-section>
+                  <q-item-label class="q-pb-xs">No Plat</q-item-label>
+                  <q-input dense outlined v-model="no_plat" label="No Plat"/>
+                </q-item-section>
+              </q-item>
+              <q-item>
+                <q-item-section>
+                  <q-item-label class="q-pb-xs">Nama Driver</q-item-label>
+                  <q-input dense outlined v-model="nama_driver" label="Nama Driver"/>
+                </q-item-section>
+              </q-item>
+              <q-item>
+                <q-item-section>
+                  <q-item-label class="q-pb-xs">Alamat</q-item-label>
+                  <q-input dense outlined v-model="alamat" label="Alamat"/>
+                </q-item-section>
+              </q-item>
+            </q-list>
+            <q-card-actions align="right" class="text-teal">
+              <q-btn label="Simpan" type="submit" color="primary"/>
+            </q-card-actions>
+          </q-form>
+        </q-card-section>
+
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 
 <script>
 import { exportFile } from 'quasar'
+import createToken from 'src/boot/create_token'
 
 function wrapCsvValue (val, formatFn) {
   let formatted = formatFn !== void 0 ? formatFn(val) : val
@@ -77,10 +125,10 @@ function wrapCsvValue (val, formatFn) {
 }
 const columns = [
   {
-    name: 'nama_po',
+    name: 'instansi',
     align: 'left',
-    label: 'Nama PO',
-    field: 'nama_po',
+    label: 'Nama Instansi',
+    field: 'instansi',
     sortable: true
   },
   {
@@ -92,54 +140,36 @@ const columns = [
     sortable: true
   },
   {
-    name: 'nama_pengemudi',
+    name: 'nama_driver',
     align: 'left',
     label: 'Nama Pengemudi',
-    field: 'nama_pengemudi',
+    field: 'nama_driver',
     sortable: true
   },
   {
-    name: 'no_telp',
+    name: 'alamat',
     align: 'left',
-    label: 'No. Telp',
-    field: 'no_telp',
+    label: 'Alamat',
+    field: 'alamat',
     sortable: true
   },
   {
     name: 'status',
-    align: 'left',
+    align: 'center',
     label: 'Status',
     field: 'status',
     sortable: true
   }
 ]
+const data = []
 
-const data = [
-  {
-    nama_po: 'KOPAMAS',
-    no_plat: 'D 1977 BR',
-    nama_pengemudi: 'Aceng',
-    no_telp: '+62895325811879',
-    status: 'Aktif'
-  },
-  {
-    nama_po: 'KOPAMAS',
-    no_plat: 'D 1977 BR',
-    nama_pengemudi: 'Aceng',
-    no_telp: '+62895325811879',
-    status: 'Sibuk'
-  },
-  {
-    nama_po: 'KOPAMAS',
-    no_plat: 'D 1977 BR',
-    nama_pengemudi: 'Aceng',
-    no_telp: '+62895325811879',
-    status: 'Tidak Aktif'
-  }
-]
 export default {
-  setup () {
+  data () {
     return {
+      instansi: null,
+      no_plat: null,
+      nama_driver: null,
+      alamat: null,
       columns,
       data,
       filter: '',
@@ -151,7 +181,34 @@ export default {
       }
     }
   },
+  created () {
+    this.getDriver()
+  },
   methods: {
+    getDriver () {
+      this.$axios.get('http://192.168.43.172:5050/drivers/get-driver', createToken())
+        .then((res) => {
+          // console.log(res)
+          this.data = res.data.data
+        })
+    },
+    onsubmit () {
+      this.$axios.post('http://192.168.43.172:5050/drivers/input', {
+        instansi: this.instansi,
+        no_plat: this.no_plat,
+        nama_driver: this.nama_driver,
+        alamat: this.alamat
+      }, createToken()).then((res) => {
+        console.log(res)
+        if (res.data.status === true) {
+          this.$router.push('/Drivers')
+          this.$q.notify({
+            message: 'berhasil input driver',
+            color: 'green'
+          })
+        }
+      })
+    },
     exportTable () {
       // naive encoding to csv format
       const content = [this.columns.map(col => wrapCsvValue(col.label))]

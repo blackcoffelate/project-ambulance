@@ -42,21 +42,75 @@
             @click="exportTable"
           />
         </template>
+        <template v-slot:body="props">
+          <q-tr :props="props">
+            <q-td key="telp" :props="props">
+              {{ props.row.telp }}
+            </q-td>
+            <q-td key="tujuan" :props="props">{{ props.row.tujuan }}</q-td>
+            <q-td key="titik_jemput" :props="props">{{ props.row.titik_jemput }}</q-td>
+            <q-td key="tanggal" :props="props">{{ props.row.tanggal }}</q-td>
+            <q-td key="status" :props="props">{{ props.row.status }}</q-td>
+            <q-td key="aksi" :props="props">
+            <div class="justify-center q-gutter-x-xs">
+              <!-- <q-btn
+              :color="(props.row.aksi == 'Pilih Driver')?'green'
+              :(props.row.aksi == 'selesai'?'red':'grey')
+              "
+                dense
+                class="q-px-xs"
+                @click="edit(props.row.GUID)"
+                label="Pilih Driver">
+              </q-btn> -->
+              <q-btn
+                color="teal-10"
+                dense
+                class="q-px-xs"
+                @click="edit(props.row.GUID)"
+                label="Pilih Driver">
+              </q-btn>
+            </div>
+          </q-td>
+          </q-tr>
+        </template>
         <template v-slot:body-cell-status="props">
           <q-td :props="props">
             <q-chip
-              :color="(props.row.status == 'Selesai')?'green'
+              :color="(props.row.status == 'Harga Diterima')?'green'
               :(props.row.status == 'Batal'?'red':'grey')
               "
               text-color="white"
               dense
+              align="center"
               class="text-weight-bolder"
               square
-              style="width: 85px"
+              style="width: 100px"
             >{{props.row.status}}
             </q-chip>
           </q-td>
         </template>
+        <!-- <template v-slot:body-cell-aksi="props">
+          <q-td key="action" :props="props">
+            <div class="justify-center q-gutter-x-xs">
+              <q-btn
+              :color="(props.row.aksi == 'Pilih Driver')?'green'
+              :(props.row.aksi == 'selesai'?'red':'grey')
+              "
+                dense
+                class="q-px-xs"
+                @click="edit(props.row.GUID)"
+                label="Pilih Driver">
+              </q-btn>
+              <q-btn
+                color="teal-10"
+                dense
+                class="q-px-xs"
+                @click="edit(props.row.GUID)"
+                label="Pilih Driver">
+              </q-btn>
+            </div>
+          </q-td>
+        </template> -->
       </q-table>
     </q-card>
 
@@ -65,6 +119,7 @@
 
 <script>
 import { exportFile } from 'quasar'
+import createToken from 'src/boot/create_token'
 
 function wrapCsvValue (val, formatFn) {
   let formatted = formatFn !== void 0 ? formatFn(val) : val
@@ -78,10 +133,10 @@ function wrapCsvValue (val, formatFn) {
 }
 const columns = [
   {
-    name: 'no_telp',
+    name: 'telp',
     align: 'left',
-    label: 'No Telp',
-    field: 'no_telp',
+    label: 'Telepon',
+    field: 'telp',
     sortable: true
   },
   {
@@ -112,40 +167,33 @@ const columns = [
     label: 'Status',
     field: 'status',
     sortable: true
-  }
-]
-
-const data = [
-  {
-    no_telp: '+6285221842929',
-    tujuan: 'dewi sri no.10',
-    titik_jemput: 'pelajar pejuang 45 no.65 bandung',
-    tanggal: '02-11-2022 16:39',
-    status: 'Batal',
-    harga: 'Rp. 50.000'
   },
   {
-    no_telp: 'KOPAMAS',
-    tujuan: 'D 1977 BR',
-    titik_jemput: 'Aceng',
-    tanggal: '+62895325811879',
-    status: 'Selesai',
-    harga: 'Rp. 5000'
+    name: 'aksi',
+    align: 'center',
+    label: 'Aksi',
+    field: 'aksi',
+    sortable: true
   }
 ]
+const data = []
+
 export default {
-  setup () {
+  data () {
     return {
       columns,
       data,
       filter: '',
       customer: {},
-      new_order: false,
+      new_customer: false,
       mode: 'list',
       pagination: {
         rowsPerPage: 10
       }
     }
+  },
+  created () {
+    this.getPesanan()
   },
   methods: {
     exportTable () {
@@ -176,13 +224,16 @@ export default {
           icon: 'warning'
         })
       }
+    },
+    getPesanan () {
+      this.$axios.get('http://192.168.43.172:5050/pesanan/get-pesanan', createToken())
+        .then((res) => {
+          console.log(res)
+          this.data = res.data.data
+        })
     }
   }
 }
 </script>
 <style>
-  .q-chip__content {
-    display: block;
-    text-align: center;
-  }
 </style>

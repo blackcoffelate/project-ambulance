@@ -10,7 +10,8 @@ const routes = [
       { path: 'Order', name: 'order', component: () => import('pages/Order.vue') },
       { path: 'Vehicle', name: 'vehicle', component: () => import('pages/Vehicle.vue') },
       { path: 'Schedule', name: 'schedule', component: () => import('pages/Schedule.vue') },
-      { path: 'Profile', name: 'profil', component: () => import('pages/Profile.vue') }
+      { path: 'Profile', name: 'profil', component: () => import('pages/Profile.vue') },
+      { path: 'Profile/:guid', name: 'editProfile', component: () => import('pages/Profile.vue') }
     ]
   },
   {

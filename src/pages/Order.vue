@@ -44,8 +44,8 @@
         </template>
         <template v-slot:body="props">
           <q-tr :props="props">
-            <q-td key="telp" :props="props">
-              {{ props.row.telp }}
+            <q-td key="no_telpon" :props="props">
+              {{ props.row.data_user.no_telpon }}
             </q-td>
             <q-td key="tujuan" :props="props">{{ props.row.tujuan }}</q-td>
             <q-td key="titik_jemput" :props="props">{{ props.row.titik_jemput }}</q-td>
@@ -53,24 +53,28 @@
             <q-td key="status" :props="props">{{ props.row.status }}</q-td>
             <q-td key="aksi" :props="props">
             <div class="justify-center q-gutter-x-xs">
-              <!-- <q-btn
-              :color="(props.row.aksi == 'Pilih Driver')?'green'
-              :(props.row.aksi == 'selesai'?'red':'grey')
-              "
-                dense
-                class="q-px-xs"
-                @click="edit(props.row.GUID)"
-                label="Pilih Driver">
-              </q-btn> -->
               <q-btn
-                color="teal-10"
+                color="primary"
                 dense
-                class="q-px-xs"
+                class="q-px-sm"
                 @click="edit(props.row.GUID)"
-                label="Pilih Driver">
+                label="pilih">
               </q-btn>
             </div>
           </q-td>
+          <!-- <template v-slot:body-cell-aksi="props"> -->
+            <q-td key="pilih_driver">
+              <q-btn-dropdown color="green" label="Pilih Driver">
+                <q-list>
+                  <q-item clickable v-close-popup @click="onPilihDriver">
+                    <q-item-section>
+                      <q-item-label>{{this.optionDriver[2].nama_driver}}</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                </q-list>
+              </q-btn-dropdown>
+            </q-td>
+          <!-- </template> -->
           </q-tr>
         </template>
         <template v-slot:body-cell-status="props">
@@ -89,28 +93,6 @@
             </q-chip>
           </q-td>
         </template>
-        <!-- <template v-slot:body-cell-aksi="props">
-          <q-td key="action" :props="props">
-            <div class="justify-center q-gutter-x-xs">
-              <q-btn
-              :color="(props.row.aksi == 'Pilih Driver')?'green'
-              :(props.row.aksi == 'selesai'?'red':'grey')
-              "
-                dense
-                class="q-px-xs"
-                @click="edit(props.row.GUID)"
-                label="Pilih Driver">
-              </q-btn>
-              <q-btn
-                color="teal-10"
-                dense
-                class="q-px-xs"
-                @click="edit(props.row.GUID)"
-                label="Pilih Driver">
-              </q-btn>
-            </div>
-          </q-td>
-        </template> -->
       </q-table>
     </q-card>
 
@@ -133,10 +115,10 @@ function wrapCsvValue (val, formatFn) {
 }
 const columns = [
   {
-    name: 'telp',
+    name: 'no_telpon',
     align: 'left',
     label: 'Telepon',
-    field: 'telp',
+    field: 'no_telpon',
     sortable: true
   },
   {
@@ -171,8 +153,15 @@ const columns = [
   {
     name: 'aksi',
     align: 'center',
-    label: 'Aksi',
+    label: 'Pilih',
     field: 'aksi',
+    sortable: true
+  },
+  {
+    name: 'pilih_driver',
+    align: 'center',
+    label: 'Pilih Driver',
+    field: 'pilih_driver',
     sortable: true
   }
 ]
@@ -181,8 +170,12 @@ const data = []
 export default {
   data () {
     return {
+      dataUser: this.$q.localStorage.getItem('dataUser'),
       columns,
       data,
+      // driver: this.optionDriver,
+      optionPilih_driver: [],
+      // pilihDriver: this.driver,
       filter: '',
       customer: {},
       new_customer: false,
@@ -194,6 +187,7 @@ export default {
   },
   created () {
     this.getPesanan()
+    this.onPilihDriver()
   },
   methods: {
     exportTable () {
@@ -226,10 +220,23 @@ export default {
       }
     },
     getPesanan () {
-      this.$axios.get('http://192.168.43.172:5050/pesanan/get-pesanan', createToken())
+      this.$axios.get('http://localhost:5050/pesanan/get-pesanan', createToken())
+        .then((res) => {
+          // console.log(res)
+          this.data = res.data.data
+        })
+    },
+    onPilihDriver () {
+      this.$axios.get('http://localhost:5050/drivers/get-driver', createToken())
         .then((res) => {
           console.log(res)
-          this.data = res.data.data
+          if (res.data.status) {
+            this.optionDriver = res.data.data
+            // this.optionDriver = res.data.data.forEach((optionDriver) => {
+            //   optionDriver = optionDriver.nama_driver
+            //   console.log(optionDriver)
+            // })
+          }
         })
     }
   }

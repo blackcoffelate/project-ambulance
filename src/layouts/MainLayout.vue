@@ -51,6 +51,7 @@
 
             <q-toolbar-title>Administrator</q-toolbar-title>
           </q-toolbar>
+          <!-- <div class="text-center">{{dataUser.user.username}}</div> -->
           <div class="text-center">{{dataUser.user.username}}</div>
           <hr />
           <q-scroll-area style="height:100%;">
@@ -116,7 +117,7 @@
                   Pengemudi
                 </q-item-section>
               </q-item>
-              <q-item
+              <!-- <q-item
                 active-class="tab-active"
                 :to="{ name: 'schedule' }"
                 exact
@@ -130,7 +131,7 @@
                 <q-item-section>
                   Jadwal
                 </q-item-section>
-              </q-item>
+              </q-item> -->
 
               <q-item
                 active-class="tab-active"
@@ -191,6 +192,7 @@
 
 <script>
 import Messages from './Messages'
+// import createToken from 'src/boot/create_token'
 export default ({
   name: 'MainLayout',
   components: {
@@ -199,9 +201,26 @@ export default ({
   data () {
     return {
       leftDrawerOpen: false,
+      username: null,
       dataUser: this.$q.localStorage.getItem('dataUser')
     }
   }
+  // methods: {
+  //   getUser () {
+  //     this.$axios.get('http://localhost:5050/users/get-all', {
+  //       username: this.username,
+  //       email: this.email,
+  //       no_telpon: this.no_telpon
+  //     }, createToken())
+  //       .then((res) => {
+  //         this.data = res.data.data
+  //         this.username = this.data[0].username
+  //         this.email = this.data[0].email
+  //         this.no_telpon = this.data[0].no_telpon
+  //         console.log(this.data)
+  //       })
+  //   }
+  // }
 })
 </script>
 <style>

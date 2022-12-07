@@ -13,7 +13,7 @@
         :pagination="pagination"
       >
         <template v-slot:top-right="props">
-          <q-btn @click="new_customer=true" outline color="primary bg-green text-white" label="Tambah Kendaraan" class="q-mr-xs"/>
+          <!-- <q-btn @click="new_customer=true" outline color="primary bg-green text-white" label="Tambah Kendaraan" class="q-mr-xs"/> -->
           <q-input outlined dense debounce="300" v-model="filter" placeholder="Search">
             <template v-slot:append>
               <q-icon name="search"/>

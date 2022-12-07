@@ -5,16 +5,16 @@
       <q-page class="flex flex-center">
         <div
           id="particles-js"
-          :class="$q.dark.isActive ? 'dark_gradient' : 'normal_gradient'"
-        ></div>
-        <q-btn
+          class="normal_gradient">
+        </div>
+        <!-- <q-btn
           color="white"
           class="absolute-top-right"
           flat
           round
           @click="$q.dark.toggle()"
           :icon="$q.dark.isActive ? 'nights_stay' : 'wb_sunny'"
-        />
+        /> -->
         <q-card
           class="login-form"
           v-bind:style="
@@ -35,7 +35,8 @@
               <q-input filled v-model="email" label="Email" lazy-rules />
 
               <q-input
-                type=""
+                @click="showPassword()"
+                type="password"
                 filled
                 v-model="password"
                 label="Password"
@@ -69,7 +70,7 @@
     },
     methods: {
       async loginNotify() {
-        await this.$axios.post('http://192.168.43.172:5050/users/login', {
+        await this.$axios.post('http://localhost:5050/users/login', {
           email: this.email,
           password: this.password
         })
@@ -77,14 +78,14 @@
           console.log(res);
           if (res.data.status === true){
             this.$q.localStorage.set('dataUser', res.data.data)
-            this.$router.push('/')
+            this.$router.push({name : 'dashboard'})
             this.$q.notify({
               color: 'green',
-              message: 'Berhasil login'
+              message: 'selamat anda berhasil login'
             })
           } else {
             this.$q.notify({
-              color: "",
+              color: 'red',
               message: 'username atau password anda salah'
             })
           }

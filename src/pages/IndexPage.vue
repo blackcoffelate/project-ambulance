@@ -1,21 +1,6 @@
 <template>
   <q-page>
     <div class="row q-col-gutter-sm q-ma-xs q-mr-sm">
-      <!-- <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-        <q-card>
-          <q-card-section class="bg-blue-8 text-white">
-            <div class="row">
-              <div class="col-10">
-                <div class="text-h6">Ambulance</div>
-                <div class="text-h5">160</div>
-              </div>
-              <div class="col-2">
-                <q-icon size="62px" name="trending_up"/>
-              </div>
-            </div>
-          </q-card-section>
-        </q-card>
-      </div> -->
       <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
         <q-card>
           <q-card-section class="text-white bg-green-8">
@@ -38,8 +23,7 @@
               <div class="col-10">
                 <div class="text-h6">Users</div>
                 <div class="text-h5">
-                  <q-icon name="airline_seat_recline_extra"/>
-                  2%
+                  200
                 </div>
               </div>
               <div class="col-2">
@@ -49,42 +33,34 @@
           </q-card-section>
         </q-card>
       </div>
-    </div>
-    <div class="row q-col-gutter-sm q-ma-xs q-mr-sm">
-      <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-        <q-card flat bordered class="">
-          <q-card-section>
-            <div class="text-h6">Key Competitors
-              <q-btn flat dense icon="fas fa-download" class="float-right" @click="SaveImage('pie')"
-                     :color="!$q.dark.isActive? 'grey-8':'white'">
-                <q-tooltip>Download</q-tooltip>
-              </q-btn>
-            </div>
-          </q-card-section>
-
-          <q-separator inset></q-separator>
-
-          <q-card-section>
-            <IEcharts ref="pie" :option="pieOptions" :resizable="true" style="height:270px"/>
-          </q-card-section>
-        </q-card>
-      </div>
-      <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-        <q-card flat bordered class="">
-          <q-card-section>
-            <div class="text-h6">Sales Pipeline by Sales Rep
-              <q-btn flat dense icon="fas fa-download" class="float-right" @click="SaveImage('stack_bar')"
-                     :color="!$q.dark.isActive? 'grey-8':'white'">
-                <q-tooltip>Download</q-tooltip>
-              </q-btn>
-            </div>
-          </q-card-section>
-
-          <q-separator inset></q-separator>
-
-          <q-card-section>
-            <IEcharts ref="stack_bar" :option="stackedBarOptions" :resizable="true" style="height:270px"/>
-          </q-card-section>
+      <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+        <q-card>
+          <div style="height: fit-content; width: 100%;">
+            <l-map
+              :zoom="map.zoom"
+              :center="map.center"
+              :max-zoom="map.maxZoom"
+              :min-zoom="map.minZoom"
+              style="height: 430px; width: 100%"
+            >
+              <l-tile-layer
+                :url="map.tileLayer"
+                :attribution="map.attribution"
+              />
+              <l-marker
+                v-for="(d, i) in maps"
+                :key="i"
+                :lat-lng="[Number(d.location_latitude), Number(d.location_longitude)]"
+              >
+              <l-icon
+                :icon-size="[32, 32]"
+                :icon-anchor="[16, 32]"
+                :popup-anchor="[0, -32]"
+                :icon-url="d.icons"
+                />
+              </l-marker>
+            </l-map>
+          </div>
         </q-card>
       </div>
     </div>
@@ -92,4 +68,71 @@
 </template>
 
 <script>
+import {
+  LMap,
+  LIcon,
+  LTileLayer,
+  LMarker
+} from '@vue-leaflet/vue-leaflet'
+import 'leaflet/dist/leaflet.css'
+export default {
+  components: {
+    LMap,
+    LIcon,
+    LTileLayer,
+    LMarker
+  },
+  data () {
+    return {
+      map: {
+        tileLayer: 'http://vectormap.pptik.id/styles/klokantech-basic/{z}/{x}/{y}.png',
+        attribution: '<a href="">blits ambulance</a> contributors',
+        center: [-5.398909, 105.070861],
+        zoom: 10,
+        minZoom: 7,
+        maxZoom: 18,
+        markerLatLng: [47.313220, -1.319482],
+        icons: ''
+      },
+      maps: [],
+      zoom: 2,
+      guid_po: '2bfab8ff-304e-42e9-b200-9fb9140f0432',
+      iconWidth: 25,
+      iconHeight: 40
+    }
+  },
+  async created () {
+    await this.getKendaraan()
+  },
+  methods: {
+    async getKendaraan () {
+      this.$axios.post('https://api-kopamas-carter.pptik.id:5121/api.v1/vehicles/po-get', {
+        guid_po: '2bfab8ff-304e-42e9-b200-9fb9140f0432'
+      }, {
+        headers: {
+          'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJndWlkIjoiNzNhZjk3YjQtNTllZC00MGFmLWJlZTQtOTM4MzhmMzlhNGYzIiwiaWF0IjoxNjY5MTA3MDIyLCJleHAiOjE4MjY3ODcwMjJ9.4x6F8nQyDiMaiARRMOpIV2YkbPrS4iKEEf3Qtm0SjDY'
+        }
+      })
+        .then((res) => {
+          // console.log(res)
+          if (res.status === 200) {
+            res.data.data.forEach((marker) => {
+              marker.location_latitude = marker.location.coordinates[1]
+              marker.location_longitude = marker.location.coordinates[0]
+              marker.icons = 'https://www.kibrispdr.org/data/4/ambulance-icon-png-5.png'
+              this.maps.push(marker)
+            })
+          }
+        })
+    },
+    log (a) {
+    }
+    // changeIcon () {
+    //   this.iconWidth += 2
+    //   if (this.iconWidth > this.iconHeight) {
+    //     this.iconWidth = Math.floor(this.iconHeight / 2)
+    //   }
+    // }
+  }
+}
 </script>

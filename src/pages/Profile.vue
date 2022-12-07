@@ -11,8 +11,8 @@
               </div>
               <div class="text-h5 q-mt-sm q-mb-xs">{{dataUser.user.username}}</div>
               <div class="text-caption text-grey">
-                Administrator Blits Ambulance | Graduate and past committee | Keynote speaker on Selling and Recruiting
-                Topics
+                <div>{{dataUser.user.email}}</div>
+                <div>{{dataUser.user.alamat}}</div>
               </div>
             </q-card-section>
 
@@ -35,24 +35,31 @@
         <q-card>
           <q-card-section>
             <q-form
+            @submit="onSubmit"
               class="q-gutter-md"
             >
               <q-input
                 filled
-                v-model="user.NAMA"
-                label="Nama"
+                v-model="username"
+                label="Username"
               />
 
               <q-input
                 filled
-                v-model="user.EMAIL"
+                v-model="email"
                 label="Email"
               />
 
               <q-input
                 filled
-                v-model="user.NO_TELPON"
+                v-model="no_telpon"
                 label="No. Telpon"
+              />
+
+              <q-input
+                filled
+                v-model="alamat"
+                label="Alamat"
               />
 
               <div>
@@ -67,16 +74,59 @@
 </template>
 
 <script>
+import createToken from 'src/boot/create_token'
 export default {
   data () {
     return {
       dataUser: this.$q.localStorage.getItem('dataUser'),
-      user: {
-        NAMA: 'Gunawan',
-        EMAIL: 'm******@****.com',
-        NO_TELPON: '98******23'
-      }
+      // user: {
+      username: null,
+      email: null,
+      no_telpon: null,
+      alamat: null
+      // }
     }
+  },
+  methods: {
+    onSubmit () {
+      this.$axios.put(`http://localhost:5050/users/user-update/${this.dataUser.user.guid}`, {
+        username: this.username,
+        email: this.email,
+        no_telpon: this.no_telpon,
+        alamat: this.alamat
+      }, createToken())
+        .then((res) => {
+          console.log(res)
+          if (res.data.status) {
+            this.$q.dialog({
+              title: 'Peringatan',
+              message: 'apakah anda yakin? klik ok untuk melanjutkan'
+            }).onOk(() => {
+              this.$router.push({ name: 'login' })
+            })
+          }
+        })
+    },
+    getUser () {
+      // this.$axios.get(`http://localhost:5050/users/get-user/${this.$route.params.guid}`, createToken())
+      this.$axios.get('http://localhost:5050/users/get-all', {
+        username: this.username,
+        email: this.email,
+        no_telpon: this.no_telpon,
+        alamat: this.alamat
+      }, createToken())
+        .then((res) => {
+          this.data = res.data.data
+          this.username = this.data[0].username
+          this.email = this.data[0].email
+          this.no_telpon = this.data[0].no_telpon
+          this.alamat = this.data[0].alamat
+          console.log(this.data)
+        })
+    }
+  },
+  mounted () {
+    this.getUser()
   }
 }
 </script>

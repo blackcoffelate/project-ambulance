@@ -46,8 +46,8 @@
         <template v-slot:body-cell-status="props">
           <q-td :props="props">
             <q-btn
-              :color="(props.row.status == 'aktif')?'green'
-              :(props.row.status == 'sibuk'?'red':'grey')
+              :color="(props.row.status === 'AKTIF')?'green'
+              :(props.row.status == 'vb'?'red':'grey')
               "
               text-color="white"
               dense
@@ -97,9 +97,33 @@
                   <q-input dense outlined v-model="alamat" label="Alamat"/>
                 </q-item-section>
               </q-item>
+              <q-item>
+                <q-item-section>
+                <q-item-label class="q-pb-xs">Status</q-item-label>
+                  <q-select
+                  dense outlined
+                  filled
+                  key="status"
+                  v-model="status"
+                  option-label="status"
+                  :options="optionStatus"
+                  label="status"
+                >
+                  <template v-slot:option="scope">
+                    <q-item v-bind="scope.itemProps">
+                      <q-item-section>
+                        <q-item-label caption>{{ scope.opt.status }}</q-item-label>
+                      </q-item-section>
+                    </q-item>
+                  </template>
+                </q-select>
+                  <!-- <q-item-label class="q-pb-xs">Status</q-item-label>
+                  <q-input dense outlined v-model="status" label="Status"/> -->
+                </q-item-section>
+              </q-item>
             </q-list>
             <q-card-actions align="right" class="text-teal">
-              <q-btn label="Simpan" type="submit" color="primary"/>
+              <q-btn label="Simpan" type="submit" color="green" v-close-popup/>
             </q-card-actions>
           </q-form>
         </q-card-section>
@@ -181,19 +205,19 @@ export default {
       }
     }
   },
-  created () {
+  mounted () {
     this.getDriver()
   },
   methods: {
     getDriver () {
-      this.$axios.get('http://192.168.43.172:5050/drivers/get-driver', createToken())
+      this.$axios.get('http://localhost:5050/drivers/get-driver', createToken())
         .then((res) => {
-          // console.log(res)
+          console.log(res)
           this.data = res.data.data
         })
     },
     onsubmit () {
-      this.$axios.post('http://192.168.43.172:5050/drivers/input', {
+      this.$axios.post('http://localhost:5050/drivers/input', {
         instansi: this.instansi,
         no_plat: this.no_plat,
         nama_driver: this.nama_driver,

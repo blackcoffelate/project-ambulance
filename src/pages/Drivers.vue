@@ -47,7 +47,7 @@
           <q-td :props="props">
             <q-btn
               :color="(props.row.status === 'AKTIF')?'green'
-              :(props.row.status == 'vb'?'red':'grey')
+              :(props.row.status == 'TIDAK AKTIF'?'red':'red')
               "
               text-color="white"
               dense
@@ -109,13 +109,13 @@
                   :options="optionStatus"
                   label="status"
                 >
-                  <template v-slot:option="scope">
+                  <!-- <template v-slot:option="scope">
                     <q-item v-bind="scope.itemProps">
                       <q-item-section>
                         <q-item-label caption>{{ scope.opt.status }}</q-item-label>
                       </q-item-section>
                     </q-item>
-                  </template>
+                  </template> -->
                 </q-select>
                   <!-- <q-item-label class="q-pb-xs">Status</q-item-label>
                   <q-input dense outlined v-model="status" label="Status"/> -->
@@ -195,6 +195,11 @@ export default {
       nama_driver: null,
       alamat: null,
       columns,
+      status: null,
+      optionStatus: [
+        'Aktif',
+        'Tidak Aktif'
+      ],
       data,
       filter: '',
       customer: {},
@@ -221,7 +226,8 @@ export default {
         instansi: this.instansi,
         no_plat: this.no_plat,
         nama_driver: this.nama_driver,
-        alamat: this.alamat
+        alamat: this.alamat,
+        status: this.status
       }, createToken()).then((res) => {
         console.log(res)
         if (res.data.status === true) {

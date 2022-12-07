@@ -23,24 +23,9 @@
         :popup-anchor="[0, -32]"
         :icon-url="d.icons"
         />
-        <!-- <l-popup width="560" height="315"> hello -->
-          <!-- <div v-if="d.subkategori === 'umkm'" class="text-center">
-            <img src="`${map.baseImg}/${d.map_image_url}`" width="200-px" height="100px" class="img-fluid" />
-            <div class="text-center">
-            <h5>{{ d.name }}</h5>
-            <p>{{ d.PEGAWAI.ALAMAT }}</p>
-            <p>{{ d.ALAMAT }}</p>
-          </div>
-          </div>
-          <div v-else class="text-center">
-            <img :src="`${map.baseImg}/${d.map_image_url}`" class="img-fluid" />
-          </div>
-          <div class="text-center">
-            <h5>{{ d.name }}</h5>
-            <p>{{ d.description_point }}</p>
-            <p>{{ d.address }}</p>
-          </div> -->
-        <!-- </l-popup> -->
+        <!-- <l-popup>
+        Hi! I'm staying here on this location!
+        </l-popup> -->
       </l-marker>
     </l-map>
   </div>
@@ -51,6 +36,7 @@ import {
   LIcon,
   LTileLayer,
   LMarker
+  // LPopup
   // LCircle,
   // LPopup
   // LControlLayers,
@@ -61,6 +47,8 @@ import {
   // LRectangle
 } from '@vue-leaflet/vue-leaflet'
 import 'leaflet/dist/leaflet.css'
+// import {LPopup} from "@vue-leaflet/vue-leaflet";
+// import { L } from 'leaflet'
 // import L from 'leaflet'
 export default {
   components: {
@@ -104,7 +92,7 @@ export default {
   methods: {
     async getKendaraan () {
       this.$axios.post('https://api-kopamas-carter.pptik.id:5121/api.v1/vehicles/po-get', {
-        guid_po: '2bfab8ff-304e-42e9-b200-9fb9140f0432'
+        guid_po: this.guid_po
       }, {
         headers: {
           'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJndWlkIjoiNzNhZjk3YjQtNTllZC00MGFmLWJlZTQtOTM4MzhmMzlhNGYzIiwiaWF0IjoxNjY5MTA3MDIyLCJleHAiOjE4MjY3ODcwMjJ9.4x6F8nQyDiMaiARRMOpIV2YkbPrS4iKEEf3Qtm0SjDY'

@@ -54,7 +54,7 @@
             <q-td key="aksi" :props="props">
             <div class="justify-center q-gutter-x-xs">
               <q-btn
-                color="primary"
+                color="teal-10"
                 dense
                 class="q-px-sm"
                 @click="edit(props.row.GUID)"
@@ -66,9 +66,9 @@
             <q-td key="pilih_driver">
               <q-btn-dropdown color="green" label="Pilih Driver">
                 <q-list>
-                  <q-item clickable v-close-popup @click="onPilihDriver">
+                  <q-item :v-for="optionDriver in this.optionDriver" clickable v-close-popup @click="onPilihDriver">
                     <q-item-section>
-                      <q-item-label>{{this.optionDriver[2].nama_driver}}</q-item-label>
+                      <q-item-label>{{optionDriver[1].nama_driver}}</q-item-label>
                     </q-item-section>
                   </q-item>
                 </q-list>
@@ -173,9 +173,7 @@ export default {
       dataUser: this.$q.localStorage.getItem('dataUser'),
       columns,
       data,
-      // driver: this.optionDriver,
       optionPilih_driver: [],
-      // pilihDriver: this.driver,
       filter: '',
       customer: {},
       new_customer: false,

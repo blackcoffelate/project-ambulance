@@ -107,7 +107,7 @@ export default {
   methods: {
     async getKendaraan () {
       this.$axios.post('https://api-kopamas-carter.pptik.id:5121/api.v1/vehicles/po-get', {
-        guid_po: '2bfab8ff-304e-42e9-b200-9fb9140f0432'
+        guid_po: this.guid_po
       }, {
         headers: {
           'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJndWlkIjoiNzNhZjk3YjQtNTllZC00MGFmLWJlZTQtOTM4MzhmMzlhNGYzIiwiaWF0IjoxNjY5MTA3MDIyLCJleHAiOjE4MjY3ODcwMjJ9.4x6F8nQyDiMaiARRMOpIV2YkbPrS4iKEEf3Qtm0SjDY'
@@ -119,6 +119,7 @@ export default {
             res.data.data.forEach((marker) => {
               marker.location_latitude = marker.location.coordinates[1]
               marker.location_longitude = marker.location.coordinates[0]
+              // marker.icons = 'src/images/Marker-Ambulance.png'
               marker.icons = 'https://www.kibrispdr.org/data/4/ambulance-icon-png-5.png'
               this.maps.push(marker)
             })

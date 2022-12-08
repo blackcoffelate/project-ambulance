@@ -36,7 +36,7 @@
           </q-btn>
 
           <q-btn
-            color="primary"
+            color="orange-10"
             icon-right="archive"
             label="Export to csv"
             no-caps
@@ -75,7 +75,7 @@
               <q-item>
                 <q-item-section>
                   <q-item-label class="q-pb-xs">No Plat</q-item-label>
-                  <q-input dense outlined v-model="plat_id" label="No Plat"/>
+                  <q-input dense outlined v-model="plat_id" label="No Plat" :rules="[val => !!val || 'Field is required']"/>
                 </q-item-section>
               </q-item>
               <q-item>

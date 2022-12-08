@@ -7,14 +7,6 @@
           id="particles-js"
           class="normal_gradient">
         </div>
-        <!-- <q-btn
-          color="white"
-          class="absolute-top-right"
-          flat
-          round
-          @click="$q.dark.toggle()"
-          :icon="$q.dark.isActive ? 'nights_stay' : 'wb_sunny'"
-        /> -->
         <q-card
           class="login-form"
           v-bind:style="
@@ -35,7 +27,6 @@
               <q-input filled v-model="email" label="Email" lazy-rules />
 
               <q-input
-                @click="showPassword()"
                 type="password"
                 filled
                 v-model="password"
@@ -47,7 +38,7 @@
                 <q-btn
                   label="Login"
                   type="button"
-                  color="primary"
+                  color='green-10'
                   @click="loginNotify"
                 />
               </div>
@@ -75,7 +66,7 @@
           password: this.password
         })
         .then((res)=>{
-          console.log(res);
+          // console.log(res);
           if (res.data.status === true){
             this.$q.localStorage.set('dataUser', res.data.data)
             this.$router.push({name : 'dashboard'})
@@ -84,126 +75,138 @@
               message: 'selamat anda berhasil login'
             })
           } else {
+            if (res.data.code === 401) {
+              this.$q.notify({
+                color: 'red',
+                message: 'Email yang anda masukkan salah'
+              })
+            }
+          } if (res.data.code === 501) {
             this.$q.notify({
               color: 'red',
-              message: 'username atau password anda salah'
+              message: 'Password yang anda masukkan salah'
             })
           }
+          // else {
+          //     this.$q.notify({
+          //       color: 'red',
+          //       message: 'Email atau password salah'
+          // }
         })
       }
     },
-    mounted() {
-      particlesJS("particles-js", {
-        "particles": {
-          "number": {
-            "value": 80,
-            "density": {
-              "enable": true,
-              "value_area": 800
-            }
-          },
-          "color": {
-            "value": "#ffffff"
-          },
-          "shape": {
-            "type": "circle",
-            "stroke": {
-              "width": 0,
-              "color": "#000000"
-            },
-            "polygon": {
-              "nb_sides": 5
-            },
-            "image": {
-              "src": "img/github.svg",
-              "width": 100,
-              "height": 100
-            }
-          },
-          "opacity": {
-            "value": 0.5,
-            "random": false,
-            "anim": {
-                "enable": false,
-                "speed": 1,
-                "opacity_min": 0.1,
-                "sync": false
-            }
-          },
-          "size": {
-            "value": 3,
-            "random": true,
-            "anim": {
-              "enable": false,
-              "speed": 40,
-              "size_min": 0.1,
-              "sync": false
-            }
-          },
-          "line_linked": {
-            "enable": true,
-            "distance": 150,
-            "color": "#ffffff",
-            "opacity": 0.4,
-            "width": 1
-          },
-          "move": {
-            "enable": true,
-            "speed": 6,
-            "direction": "none",
-            "random": false,
-            "straight": false,
-            "out_mode": "out",
-            "bounce": false,
-            "attract": {
-              "enable": false,
-              "rotateX": 600,
-              "rotateY": 1200
-            }
-          }
-        },
-        "interactivity": {
-          "detect_on": "canvas",
-          "events": {
-            "onhover": {
-              "enable": true,
-              "mode": "grab"
-            },
-            "onclick": {
-              "enable": true,
-              "mode": "push"
-            },
-            "resize": true
-          },
-          "modes": {
-            "grab": {
-              "distance": 140,
-              "line_linked": {
-                "opacity": 1
-              }
-            },
-            "bubble": {
-              "distance": 400,
-              "size": 40,
-              "duration": 2,
-              "opacity": 8,
-              "speed": 3
-            },
-            "repulse": {
-              "distance": 200,
-              "duration": 0.4
-            },
-            "push": {
-              "particles_nb": 4
-            },
-            "remove": {
-              "particles_nb": 2
-            }
-          }
-        },
-        "retina_detect": true
-      });
-    }
+    // mounted() {
+    //   particlesJS("particles-js", {
+    //     "particles": {
+    //       "number": {
+    //         "value": 80,
+    //         "density": {
+    //           "enable": true,
+    //           "value_area": 800
+    //         }
+    //       },
+    //       "color": {
+    //         "value": "#ffffff"
+    //       },
+    //       "shape": {
+    //         "type": "circle",
+    //         "stroke": {
+    //           "width": 0,
+    //           "color": "#000000"
+    //         },
+    //         "polygon": {
+    //           "nb_sides": 5
+    //         },
+    //         "image": {
+    //           "src": "img/github.svg",
+    //           "width": 100,
+    //           "height": 100
+    //         }
+    //       },
+    //       "opacity": {
+    //         "value": 0.5,
+    //         "random": false,
+    //         "anim": {
+    //             "enable": false,
+    //             "speed": 1,
+    //             "opacity_min": 0.1,
+    //             "sync": false
+    //         }
+    //       },
+    //       "size": {
+    //         "value": 3,
+    //         "random": true,
+    //         "anim": {
+    //           "enable": false,
+    //           "speed": 40,
+    //           "size_min": 0.1,
+    //           "sync": false
+    //         }
+    //       },
+    //       "line_linked": {
+    //         "enable": true,
+    //         "distance": 150,
+    //         "color": "#ffffff",
+    //         "opacity": 0.4,
+    //         "width": 1
+    //       },
+    //       "move": {
+    //         "enable": true,
+    //         "speed": 6,
+    //         "direction": "none",
+    //         "random": false,
+    //         "straight": false,
+    //         "out_mode": "out",
+    //         "bounce": false,
+    //         "attract": {
+    //           "enable": false,
+    //           "rotateX": 600,
+    //           "rotateY": 1200
+    //         }
+    //       }
+    //     },
+    //     "interactivity": {
+    //       "detect_on": "canvas",
+    //       "events": {
+    //         "onhover": {
+    //           "enable": true,
+    //           "mode": "grab"
+    //         },
+    //         "onclick": {
+    //           "enable": true,
+    //           "mode": "push"
+    //         },
+    //         "resize": true
+    //       },
+    //       "modes": {
+    //         "grab": {
+    //           "distance": 140,
+    //           "line_linked": {
+    //             "opacity": 1
+    //           }
+    //         },
+    //         "bubble": {
+    //           "distance": 400,
+    //           "size": 40,
+    //           "duration": 2,
+    //           "opacity": 8,
+    //           "speed": 3
+    //         },
+    //         "repulse": {
+    //           "distance": 200,
+    //           "duration": 0.4
+    //         },
+    //         "push": {
+    //           "particles_nb": 4
+    //         },
+    //         "remove": {
+    //           "particles_nb": 2
+    //         }
+    //       }
+    //     },
+    //     "retina_detect": true
+    //   });
+    // }
   }
 </script>
 
@@ -218,9 +221,6 @@
 }
 .normal_gradient {
   background: linear-gradient(145deg, rgb(74, 94, 137) 15%, #b61924 70%);
-}
-.dark_gradient {
-  background: linear-gradient(145deg, rgb(11, 26, 61) 15%, #4c1014 70%);
 }
 .login-form {
   position: absolute;

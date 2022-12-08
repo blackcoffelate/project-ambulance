@@ -35,7 +35,7 @@
           </q-btn>
 
           <q-btn
-            color="primary"
+            color="orange-10"
             icon-right="archive"
             label="Export to csv"
             no-caps

@@ -36,7 +36,7 @@
           </q-btn>
 
           <q-btn
-            color="primary"
+            color="orange-10"
             icon-right="archive"
             label="Export to csv"
             no-caps
@@ -46,8 +46,8 @@
         <template v-slot:body-cell-status="props">
           <q-td :props="props">
             <q-btn
-              :color="(props.row.status === 'AKTIF')?'green'
-              :(props.row.status == 'TIDAK AKTIF'?'red':'red')
+              :color="(props.row.status === 'Aktif')?'green'
+              :(props.row.status == 'Tidak Aktif'?'red':'red')
               "
               text-color="white"
               dense

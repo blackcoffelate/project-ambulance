@@ -75,7 +75,6 @@ export default {
         minZoom: 7,
         maxZoom: 18,
         markerLatLng: [47.313220, -1.319482],
-        // baseImg: 'https://gis.pesawarankab.go.id',
         icons: ''
       },
       maps: [],
@@ -102,8 +101,8 @@ export default {
           // console.log(res)
           if (res.status === 200) {
             res.data.data.forEach((marker) => {
-              marker.location_latitude = marker.location.coordinates[1]
               marker.location_longitude = marker.location.coordinates[0]
+              marker.location_latitude = marker.location.coordinates[1]
               marker.icons = 'https://www.kibrispdr.org/data/4/ambulance-icon-png-5.png'
               this.maps.push(marker)
             })

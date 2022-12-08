@@ -63,7 +63,7 @@
               />
 
               <div>
-                <q-btn label="Update" type="submit" color="green"/>
+                <q-btn label="Update" type="submit" color="green-10"/>
               </div>
             </q-form>
           </q-card-section>

@@ -1,7 +1,15 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <q-page class="q-pa-sm">
-    <q-card>
+  <q-page>
+    <q-card class="q-pa-md q-ma-md">
+        <q-breadcrumbs>
+          <q-breadcrumbs-el label="Home" icon="home" />
+          <q-breadcrumbs-el class="text-grey-7" label="Pengemudi" icon="supervised_user_circle" />
+          <!-- <q-breadcrumbs-el label="Breadcrumbs" /> -->
+        </q-breadcrumbs>
+    </q-card>
+    <div class="col q-col-gutter-md q-ma-md q-mt-lg">
+      <q-card>
       <q-table
         title="Detail Pengemudi"
         :rows="data"
@@ -13,35 +21,26 @@
         :pagination="pagination"
       >
         <template v-slot:top-right="props">
-          <q-btn @click="new_customer=true" outline color="primary bg-green text-white" label="Tambah Pengemudi" class="q-mr-xs"/>
-          <q-input outlined dense debounce="300" v-model="filter" placeholder="Search">
+          <q-btn @click="new_customer=true" flat icon="library_add" text-color="blue-7">
+            <q-tooltip>
+              Tambah Data
+            </q-tooltip>
+          </q-btn>
+          <q-btn
+              flat
+              icon-right="document_scanner"
+              text-color="blue-7"
+              @click="exportTable"
+            >
+              <q-tooltip>
+                Export Data
+              </q-tooltip>
+          </q-btn>
+          <q-input outlined dense debounce="300" v-model="props.filter" placeholder="Pencarian">
             <template v-slot:append>
               <q-icon name="search"/>
             </template>
           </q-input>
-
-          <q-btn
-            flat
-            round
-            dense
-            :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'"
-            @click="props.toggleFullscreen"
-            v-if="mode === 'list'"
-          >
-            <q-tooltip
-              :disable="$q.platform.is.mobile"
-              v-close-popup
-            >{{props.inFullscreen ? 'Exit Fullscreen' : 'Toggle Fullscreen'}}
-            </q-tooltip>
-          </q-btn>
-
-          <q-btn
-            color="orange-10"
-            icon-right="archive"
-            label="Export to csv"
-            no-caps
-            @click="exportTable"
-          />
         </template>
         <template v-slot:body-cell-status="props">
           <q-td :props="props">
@@ -60,73 +59,64 @@
         </template>
       </q-table>
     </q-card>
+    </div>
+
     <q-dialog v-model="new_customer">
-      <q-card style="width: 600px; max-width: 60vw;">
-        <q-card-section>
-          <div class="text-h6">
-            Tambah Baru Pengemudi
-            <q-btn round flat dense icon="close" class="float-right" color="grey-8" v-close-popup></q-btn>
-          </div>
-        </q-card-section>
-        <q-separator inset></q-separator>
-        <q-card-section class="q-pt-none">
-          <q-form class="q-gutter-md"
-          @submit="onsubmit">
-            <q-list>
-              <q-item>
-                <q-item-section>
-                  <q-item-label class="q-pb-xs">Instansi</q-item-label>
-                  <q-input dense outlined v-model="instansi" label="Nama Instansi"/>
-                </q-item-section>
-              </q-item>
-              <q-item>
-                <q-item-section>
-                  <q-item-label class="q-pb-xs">No Plat</q-item-label>
-                  <q-input dense outlined v-model="no_plat" label="No Plat"/>
-                </q-item-section>
-              </q-item>
-              <q-item>
-                <q-item-section>
-                  <q-item-label class="q-pb-xs">Nama Driver</q-item-label>
-                  <q-input dense outlined v-model="nama_driver" label="Nama Driver"/>
-                </q-item-section>
-              </q-item>
-              <q-item>
-                <q-item-section>
-                  <q-item-label class="q-pb-xs">Alamat</q-item-label>
-                  <q-input dense outlined v-model="alamat" label="Alamat"/>
-                </q-item-section>
-              </q-item>
-              <q-item>
-                <q-item-section>
-                <q-item-label class="q-pb-xs">Status</q-item-label>
-                  <q-select
+      <q-card class="my-card" flat bordered style="width: 600px; max-width: 60vw;">
+        <q-item>
+          <q-item-section avatar>
+            <q-avatar>
+              <q-icon name="supervised_user_circle" size="40px" color="blue-7" />
+            </q-avatar>
+          </q-item-section>
+
+          <q-item-section>
+            <q-item-label>Data Pengemudi</q-item-label>
+            <q-item-label caption>
+              Tambah data pengemudi ambulans
+            </q-item-label>
+          </q-item-section>
+
+          <q-item-section class="col-1">
+            <q-btn flat dense icon="close" class="float-right" color="grey-8" v-close-popup></q-btn>
+          </q-item-section>
+        </q-item>
+
+        <q-separator />
+
+        <q-form @submit="onsubmit">
+
+          <q-card-section horizontal>
+            <q-card-section class="q-gutter-md fit">
+              <q-input dense outlined v-model="instansi" label="Nama Instansi"/>
+              <q-input dense outlined v-model="nama_driver" label="Nama Driver"/>
+              <q-select
                   dense outlined
-                  filled
                   key="status"
                   v-model="status"
                   option-label="status"
                   :options="optionStatus"
-                  label="status"
-                >
-                  <!-- <template v-slot:option="scope">
-                    <q-item v-bind="scope.itemProps">
-                      <q-item-section>
-                        <q-item-label caption>{{ scope.opt.status }}</q-item-label>
-                      </q-item-section>
-                    </q-item>
-                  </template> -->
-                </q-select>
-                  <!-- <q-item-label class="q-pb-xs">Status</q-item-label>
-                  <q-input dense outlined v-model="status" label="Status"/> -->
-                </q-item-section>
-              </q-item>
-            </q-list>
-            <q-card-actions align="right" class="text-teal">
-              <q-btn label="Simpan" type="submit" color="green" v-close-popup/>
-            </q-card-actions>
-          </q-form>
-        </q-card-section>
+                  label="Status"
+              />
+            </q-card-section>
+
+            <q-separator vertical />
+
+            <q-card-section class="q-gutter-md fit">
+              <q-input dense outlined v-model="no_plat" label="No Plat"/>
+              <q-input dense outlined v-model="alamat" label="Alamat"/>
+            </q-card-section>
+          </q-card-section>
+
+          <q-separator />
+
+          <q-card-actions>
+            <q-btn flat color="primary">
+              Simpan
+            </q-btn>
+          </q-card-actions>
+
+        </q-form>
 
       </q-card>
     </q-dialog>

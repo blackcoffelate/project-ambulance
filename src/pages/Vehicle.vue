@@ -1,10 +1,19 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <q-page class="q-pa-sm">
-    <q-card>
+  <q-page>
+    <q-card class="q-pa-md q-ma-md">
+        <q-breadcrumbs>
+          <q-breadcrumbs-el label="Home" icon="home" />
+          <q-breadcrumbs-el class="text-grey-7" label="Ambulans" icon="local_shipping" />
+          <!-- <q-breadcrumbs-el label="Breadcrumbs" /> -->
+        </q-breadcrumbs>
+    </q-card>
+    <div class="col q-col-gutter-md q-ma-md q-mt-lg">
+      <q-card>
       <q-table
-        title="Detail Kendaraan"
+        title="Data ambulans"
         :rows="data"
+        class="text-grey-7"
         :hide-header="mode === 'grid'"
         :columns="columns"
         row-key="name"
@@ -14,34 +23,22 @@
       >
         <template v-slot:top-right="props">
           <!-- <q-btn @click="new_customer=true" outline color="primary bg-green text-white" label="Tambah Kendaraan" class="q-mr-xs"/> -->
-          <q-input outlined dense debounce="300" v-model="filter" placeholder="Search">
+          <q-btn
+              flat
+              icon-right="document_scanner"
+              text-color="blue-7"
+              @click="exportTable"
+            >
+              <q-tooltip>
+                Export Data
+              </q-tooltip>
+          </q-btn>
+
+            <q-input outlined dense debounce="300" v-model="props.filter" placeholder="Pencarian">
             <template v-slot:append>
               <q-icon name="search"/>
             </template>
           </q-input>
-
-          <q-btn
-            flat
-            round
-            dense
-            :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'"
-            @click="props.toggleFullscreen"
-            v-if="mode === 'list'"
-          >
-            <q-tooltip
-              :disable="$q.platform.is.mobile"
-              v-close-popup
-            >{{props.inFullscreen ? 'Exit Fullscreen' : 'Toggle Fullscreen'}}
-            </q-tooltip>
-          </q-btn>
-
-          <q-btn
-            color="orange-10"
-            icon-right="archive"
-            label="Export to csv"
-            no-caps
-            @click="exportTable"
-          />
         </template>
         <!-- <template v-slot:body-cell-status="props">
           <q-td :props="props">
@@ -60,6 +57,7 @@
         </template> -->
       </q-table>
     </q-card>
+    </div>
     <q-dialog v-model="new_customer">
       <q-card style="width: 600px; max-width: 60vw;">
         <q-card-section>

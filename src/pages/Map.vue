@@ -1,34 +1,44 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <div style="height: 75vh; width: 100%;">
-    <l-map
-      :zoom="map.zoom"
-      :center="map.center"
-      :max-zoom="map.maxZoom"
-      :min-zoom="map.minZoom"
-      style="height: 550px; width: 100%"
-    >
-      <l-tile-layer
-        :url="map.tileLayer"
-        :attribution="map.attribution"
-      />
-      <l-marker
-        v-for="(d, i) in maps"
-        :key="i"
-        :lat-lng="[Number(d.location_latitude), Number(d.location_longitude)]"
-      >
-      <l-icon
-        :icon-size="[32, 32]"
-        :icon-anchor="[16, 32]"
-        :popup-anchor="[0, -32]"
-        :icon-url="d.icons"
-        />
-        <!-- <l-popup>
-        Hi! I'm staying here on this location!
-        </l-popup> -->
-      </l-marker>
-    </l-map>
+  <q-page>
+    <q-card class="q-pa-md q-ma-md">
+        <q-breadcrumbs>
+          <q-breadcrumbs-el label="Home" icon="home" />
+          <q-breadcrumbs-el class="text-grey-7" label="Peta" icon="map" />
+          <!-- <q-breadcrumbs-el label="Breadcrumbs" /> -->
+        </q-breadcrumbs>
+    </q-card>
+    <div class="col q-ma-md q-mt-lg">
+      <q-card>
+          <div style="height: fit-content; width: 100%;">
+            <l-map
+              :zoom="map.zoom"
+              :center="map.center"
+              :max-zoom="map.maxZoom"
+              :min-zoom="map.minZoom"
+              style="height: 530px; width: 100%"
+            >
+              <l-tile-layer
+                :url="map.tileLayer"
+                :attribution="map.attribution"
+              />
+              <l-marker
+                v-for="(d, i) in maps"
+                :key="i"
+                :lat-lng="[Number(d.location_latitude), Number(d.location_longitude)]"
+              >
+              <l-icon
+                :icon-size="[32, 32]"
+                :icon-anchor="[16, 32]"
+                :popup-anchor="[0, -32]"
+                :icon-url="d.icons"
+                />
+              </l-marker>
+            </l-map>
+          </div>
+        </q-card>
   </div>
+  </q-page>
 </template>
 <script>
 import {

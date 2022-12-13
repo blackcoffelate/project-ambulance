@@ -1,31 +1,44 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header class="header_normal" elevated>
+    <q-header class="header_normal bg-white" elevated>
       <q-toolbar>
         <q-btn
           flat
           dense
-          round
+          color="blue-7"
           icon="menu"
           aria-label="Menu"
           @click="leftDrawerOpen = !leftDrawerOpen"
         />
         <q-space/>
-        <div class="q-gutter-sm row items-center no-wrap">
-          <q-btn round dense flat color="white" icon="notifications">
-            <q-badge color="red" text-color="white" floating>
-              5
-            </q-badge>
-            <q-menu
-            >
-              <q-list style="min-width: 100px">
-                <messages></messages>
-                <q-card class="text-center no-shadow no-border">
-                  <q-btn label="View All" style="max-width: 120px !important;" flat dense
-                    class="text-indigo-8"></q-btn>
-                </q-card>
-              </q-list>
+        <div class="row q-gutter-sm">
+          <q-btn dense flat text-color="blue-7" icon="notifications" class="q-mt-md">
+            <q-tooltip>
+              Information Update
+            </q-tooltip>
+            <q-badge color="green" rounded text-color="white" floating />
+            <q-menu>
+              <q-card class="my-card">
+                <q-card-section>
+                  <div class="text-h6 text-grey-7">Informasi Terbaru</div>
+                  <div class="text-subtitle text-grey-7">Daftar informasi terbaru system</div>
+                </q-card-section>
+                <q-card-section>
+                  <messages></messages>
+                </q-card-section>
+
+                <q-separator />
+
+                <q-card-actions vertical>
+                  <q-btn flat text-color="blue-7">VIEW ALL</q-btn>
+                </q-card-actions>
+              </q-card>
             </q-menu>
+          </q-btn>
+          <q-btn :to="{ name: 'login' }" dense flat text-color="blue-7" icon="highlight_off" class="q-mr-md q-mt-md">
+            <q-tooltip>
+              Sign Out
+            </q-tooltip>
           </q-btn>
         </div>
       </q-toolbar>
@@ -35,27 +48,24 @@
       class="left-navigation text-white"
       show-if-above
       v-model="leftDrawerOpen"
-      style="background-image: url(https://demos.creative-tim.com/vue-material-dashboard/img/sidebar-2.32103624.jpg) !important;"
       side="left"
+      width="250"
       elevated
     >
-      <div
-        class="full-height"
-        :class="$q.dark.isActive ? 'drawer_dark' : 'drawer_normal'"
-      >
-        <div style="height: calc(100% - 117px);padding:10px; align-items: center;">
-          <q-toolbar>
-            <q-avatar>
-              <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
+      <div class="full-height">
+        <div style="height: calc(100% - 117px); padding:20px; align-items: center;">
+          <q-toolbar class="q-mb-md">
+            <q-avatar style="width: 50px; height: 55px;">
+              <img src="icons/main_icon/icon.png" />
             </q-avatar>
-
-            <q-toolbar-title>Administrator</q-toolbar-title>
+            <q-toolbar-title class="text-grey-7">
+              BLITS
+              <div class="text-caption text-blue-7">Administrator <q-badge color="green" rounded text-color="white" /></div>
+            </q-toolbar-title>
           </q-toolbar>
           <!-- <div class="text-center">{{dataUser.user.username}}</div> -->
-          <div class="text-center">{{dataUser.user.username}}</div>
-          <hr />
           <q-scroll-area style="height:100%;">
-            <q-list padding>
+            <q-list padding class="text-grey-7 text-weight-bold">
               <q-item
                 active-class="tab-active"
                 :to="{ name: 'dashboard' }"
@@ -81,10 +91,10 @@
                 v-ripple
               >
                 <q-item-section avatar>
-                  <q-icon name="toc" />
+                  <q-icon name="perm_phone_msg" />
                 </q-item-section>
                 <q-item-section>
-                  Pesanan
+                  Pemesanan
                 </q-item-section>
               </q-item>
               <q-item
@@ -96,10 +106,10 @@
                 v-ripple
               >
                 <q-item-section avatar>
-                  <q-icon name="directions_car" />
+                  <q-icon name="local_shipping" />
                 </q-item-section>
                 <q-item-section>
-                  Kendaraan
+                  Ambulans
                 </q-item-section>
               </q-item>
               <q-item
@@ -111,27 +121,12 @@
                 v-ripple
               >
                 <q-item-section avatar>
-                  <q-icon name="settings_accessibility" />
+                  <q-icon name="supervised_user_circle" />
                 </q-item-section>
                 <q-item-section>
                   Pengemudi
                 </q-item-section>
               </q-item>
-              <!-- <q-item
-                active-class="tab-active"
-                :to="{ name: 'schedule' }"
-                exact
-                class="q-ma-sm navigation-item"
-                clickable
-                v-ripple
-              >
-                <q-item-section avatar>
-                  <q-icon name="free_cancellation" />
-                </q-item-section>
-                <q-item-section>
-                  Jadwal
-                </q-item-section>
-              </q-item> -->
 
               <q-item
                 active-class="tab-active"
@@ -151,30 +146,15 @@
               <q-item
                 active-class="tab-active"
                 :to="{ name: 'profil' }"
-                class="q-ma-sm navigation-item"
+                class="q-ma-sm navigation-item7"
                 clickable
                 v-ripple
               >
                 <q-item-section avatar>
-                  <q-icon name="manage_accounts" />
+                  <q-icon name="health_and_safety" />
                 </q-item-section>
                 <q-item-section>
                   Profil
-                </q-item-section>
-              </q-item>
-
-              <q-item
-                active-class="tab-active"
-                :to="{ name: 'login' }"
-                class="q-ma-sm navigation-item"
-                clickable
-                v-ripple
-              >
-                <q-item-section avatar>
-                  <q-icon name="logout" />
-                </q-item-section>
-                <q-item-section>
-                  Logout
                 </q-item-section>
               </q-item>
 
@@ -201,8 +181,8 @@ export default ({
   data () {
     return {
       leftDrawerOpen: false,
-      username: null,
-      dataUser: this.$q.localStorage.getItem('dataUser')
+      username: null
+      // dataUser: this.$q.localStorage.getItem('dataUser')
     }
   }
   // methods: {
@@ -234,7 +214,8 @@ export default ({
   border-radius: 5px;
 }
 .tab-active {
-  background-color: green;
+  background-color: #2777EF;
+  color: white;
 }
 .header_normal {
   background: linear-gradient(

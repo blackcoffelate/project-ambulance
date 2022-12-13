@@ -1,50 +1,22 @@
 <template>
   <q-page>
-    <div class="row q-col-gutter-sm q-ma-xs q-mr-sm">
-      <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+    <q-card class="q-pa-md q-ma-md">
+        <q-breadcrumbs>
+          <q-breadcrumbs-el label="Home" icon="home" />
+          <q-breadcrumbs-el class="text-grey-7" label="Dashboard" icon="widgets" />
+          <!-- <q-breadcrumbs-el label="Breadcrumbs" /> -->
+        </q-breadcrumbs>
+    </q-card>
+    <div class="row q-col-gutter-md q-ma-xs">
+      <div class="col-12 col-md-9">
         <q-card>
-          <q-card-section class="text-white bg-green-8">
-            <div class="row">
-              <div class="col-10">
-                <div class="text-h6">Drivers</div>
-                <div class="text-h5">140</div>
-              </div>
-              <div class="col-2">
-                <q-icon size="62px" name="local_taxi"/>
-              </div>
-            </div>
-          </q-card-section>
-        </q-card>
-      </div>
-      <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
-        <q-card>
-          <q-card-section class="text-white bg-orange-9">
-            <div class="row">
-              <div class="col-10">
-                <div class="text-h6">Users</div>
-                <div class="text-h5">
-                  200
-                </div>
-              </div>
-              <div class="col-2">
-                <q-icon size="62px" name="airline_seat_recline_extra"/>
-              </div>
-            </div>
-          </q-card-section>
-        </q-card>
-      </div>
-      <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
-        <q-card>
-          <!-- <template>
-            <div id="mapContainer"></div>
-          </template> -->
           <div style="height: fit-content; width: 100%;">
             <l-map
               :zoom="map.zoom"
               :center="map.center"
               :max-zoom="map.maxZoom"
               :min-zoom="map.minZoom"
-              style="height: 430px; width: 100%"
+              style="height: 500px; width: 100%"
             >
               <l-tile-layer
                 :url="map.tileLayer"
@@ -65,6 +37,44 @@
             </l-map>
           </div>
         </q-card>
+      </div>
+      <div class="col-12 col-md-3 q-gutter-md">
+        <div class="col-12 col-md-3">
+          <q-card>
+            <q-card-section class="text-white bg-white">
+              <div class="row">
+                <div class="col-8">
+                  <div class="text-h4 text-red-7 text-weight-bold">140</div>
+                  <div class="text-subtitle2 text-blue-7">Pengemudi</div>
+                  <div class="text-caption text-grey">
+                    Jumlah pengemudi ambulans terdaftar.
+                  </div>
+                </div>
+                <div class="col-2">
+                  <q-img src="ambulance.png" width="60px" />
+                </div>
+              </div>
+            </q-card-section>
+          </q-card>
+        </div>
+        <div class="col-12 col-md-3">
+          <q-card>
+            <q-card-section class="text-white bg-white">
+              <div class="row">
+                <div class="col-8">
+                  <div class="text-h4 text-red-7 text-weight-bold">200</div>
+                  <div class="text-subtitle2 text-blue-7">Pemesan</div>
+                  <div class="text-caption text-grey">
+                    Jumlah pemesan ambulans terdaftar.
+                  </div>
+                </div>
+                <div class="col-2">
+                  <q-img src="heart-beat.png" width="60px" />
+                </div>
+              </div>
+            </q-card-section>
+          </q-card>
+        </div>
       </div>
     </div>
   </q-page>

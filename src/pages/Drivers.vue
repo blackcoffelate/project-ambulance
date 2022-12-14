@@ -236,6 +236,11 @@ export default {
             message: 'berhasil input driver',
             color: 'green'
           })
+        } else {
+          this.$.notify({
+            color: 'red',
+            message: 'data tidak dapat dimuat'
+          })
         }
       })
     },

@@ -52,7 +52,6 @@
             <q-toolbar-title>Administrator</q-toolbar-title>
           </q-toolbar>
           <!-- <div class="text-center">{{dataUser.user.username}}</div> -->
-          <div class="text-center">{{dataUser.user.username}}</div>
           <hr />
           <q-scroll-area style="height:100%;">
             <q-list padding>
@@ -201,8 +200,8 @@ export default ({
   data () {
     return {
       leftDrawerOpen: false,
-      username: null,
-      dataUser: this.$q.localStorage.getItem('dataUser')
+      username: null
+      // dataUser: this.$q.localStorage.getItem('dataUser')
     }
   }
   // methods: {

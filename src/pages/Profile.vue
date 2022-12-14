@@ -27,7 +27,8 @@
           <q-separator/>
 
           <q-card-section>
-            Assessing clients needs and present suitable promoted products. Liaising with and persuading targeted doctors to prescribe our products utilizing effective sales skills.
+            Tugas:  menerima panggilan dari ruangan bila terdapat pasien yang dirujuk ke rumah sakit
+            mencatat penumpang yang diantar oleh driver ambulans.
           </q-card-section>
         </q-card>
       </div>

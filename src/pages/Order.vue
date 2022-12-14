@@ -68,7 +68,7 @@
                 <q-list>
                   <q-item :v-for="optionDriver in this.optionDriver" clickable v-close-popup @click="onPilihDriver">
                     <q-item-section>
-                      <q-item-label>{{optionDriver[1].nama_driver}}</q-item-label>
+                      <q-item-label>{{optionDriver[1].nama_drivers}}</q-item-label>
                     </q-item-section>
                   </q-item>
                 </q-list>
@@ -76,6 +76,32 @@
             </q-td>
           <!-- </template> -->
           </q-tr>
+        </template>
+        <template>
+          <div class="dropdown" v-if="options">
+
+            <!-- Dropdown Input -->
+            <input class="dropdown-input"
+              :name="name"
+              @focus="showOptions()"
+              @blur="exit()"
+              @keyup="keyMonitor"
+              v-model="searchFilter"
+              :disabled="disabled"
+              :placeholder="placeholder" />
+
+            <!-- Dropdown Menu -->
+            <div class="dropdown-content"
+              v-show="optionsShown">
+              <div
+                class="dropdown-item"
+                @mousedown="selectOption(option)"
+                v-for="(option, index) in filteredOptions"
+                :key="index">
+                  {{ option.name || option.id || '-' }}
+              </div>
+            </div>
+          </div>
         </template>
         <template v-slot:body-cell-status="props">
           <q-td :props="props">
@@ -184,7 +210,7 @@ export default {
     }
   },
   created () {
-    this.getPesanan()
+    // this.getPesanan()
     this.onPilihDriver()
   },
   methods: {
@@ -225,11 +251,12 @@ export default {
         })
     },
     onPilihDriver () {
-      this.$axios.get('http://localhost:5050/drivers/get-driver', createToken())
+      // this.$axios.get('http://localhost:5050/drivers/get-driver', createToken())
+      this.$axios.get('https://jsonplaceholder.typicode.com/posts/1/comments')
         .then((res) => {
           console.log(res)
           if (res.data.status) {
-            this.optionDriver = res.data.data
+            this.optionDrivers = res.data.data
             // this.optionDriver = res.data.data.forEach((optionDriver) => {
             //   optionDriver = optionDriver.nama_driver
             //   console.log(optionDriver)

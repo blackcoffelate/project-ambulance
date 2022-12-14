@@ -205,14 +205,16 @@ export default {
   },
   methods: {
     getDriver () {
-      this.$axios.get('http://localhost:5050/drivers/get-driver', createToken())
+      // this.$axios.get('http://localhost:5050/drivers/get-driver', createToken())
+      this.$axios.get('http://192.168.43.172:5050/drivers/get-driver', createToken())
         .then((res) => {
           console.log(res)
           this.data = res.data.data
         })
     },
     onsubmit () {
-      this.$axios.post('http://localhost:5050/drivers/input', {
+      // this.$axios.post('http://localhost:5050/drivers/input', {
+      this.$axios.post('http://192.168.43.172:5050/drivers/input', {
         instansi: this.instansi,
         no_plat: this.no_plat,
         nama_driver: this.nama_driver,

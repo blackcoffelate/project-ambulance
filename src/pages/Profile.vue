@@ -151,7 +151,8 @@ export default {
   },
   methods: {
     onSubmit () {
-      this.$axios.put(`http://localhost:5050/users/user-update/${this.dataUser.user.guid}`, {
+      // this.$axios.put(`http://localhost:5050/users/user-update/${this.dataUser.user.guid}`, {
+      this.$axios.put(`http://192.168.43.172:5050/users/user-update/${this.dataUser.user.guid}`, {
         username: this.username,
         email: this.email,
         no_telpon: this.no_telpon,
@@ -171,7 +172,8 @@ export default {
     },
     getUser () {
       // this.$axios.get(`http://localhost:5050/users/get-user/${this.$route.params.guid}`, createToken())
-      this.$axios.get('http://localhost:5050/users/get-all', {
+      // this.$axios.get('http://localhost:5050/users/get-all', {
+      this.$axios.get('http://192.168.43.172:5050/users/get-all', {
         username: this.username,
         email: this.email,
         no_telpon: this.no_telpon,

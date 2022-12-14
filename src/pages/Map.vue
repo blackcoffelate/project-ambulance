@@ -90,9 +90,7 @@ export default {
       maps: [],
       // umkm: [],
       zoom: 2,
-      guid_po: '2bfab8ff-304e-42e9-b200-9fb9140f0432',
-      iconWidth: 25,
-      iconHeight: 40
+      guid_po: '2bfab8ff-304e-42e9-b200-9fb9140f0432'
     }
   },
   async created () {
@@ -113,7 +111,7 @@ export default {
             res.data.data.forEach((marker) => {
               marker.location_longitude = marker.location.coordinates[0]
               marker.location_latitude = marker.location.coordinates[1]
-              marker.icons = 'https://www.kibrispdr.org/data/4/ambulance-icon-png-5.png'
+              marker.icons = 'marker.png'
               this.maps.push(marker)
             })
           }

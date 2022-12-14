@@ -82,21 +82,43 @@
                 </q-item-section>
               </q-item>
 
-              <q-item
-                active-class="tab-active"
-                :to="{ name: 'order' }"
-                exact
-                class="q-ma-sm navigation-item"
-                clickable
-                v-ripple
+              <q-expansion-item
+                icon="perm_phone_msg"
+                label="Pemesanan"
               >
-                <q-item-section avatar>
-                  <q-icon name="perm_phone_msg" />
-                </q-item-section>
-                <q-item-section>
-                  Pemesanan
-                </q-item-section>
-              </q-item>
+                <q-item
+                  active-class="tab-active"
+                  class="q-ma-sm navigation-item"
+                  :to="{ name: 'order' }"
+                  exact
+                  clickable
+                  v-ripple
+                >
+                  <q-item-section avatar>
+                    <q-icon name="verified" />
+                  </q-item-section>
+                  <q-item-section>
+                    Pilih Pengemudi
+                  </q-item-section>
+                </q-item>
+
+                <q-item
+                  active-class="tab-active"
+                  class="q-ma-sm navigation-item"
+                  :to="{ name: 'list' }"
+                  exact
+                  clickable
+                  v-ripple
+                >
+                  <q-item-section avatar>
+                    <q-icon name="playlist_add_check_circle" />
+                  </q-item-section>
+                  <q-item-section>
+                    Daftar Pesanan
+                  </q-item-section>
+                </q-item>
+              </q-expansion-item>
+
               <q-item
                 active-class="tab-active"
                 :to="{ name: 'vehicle' }"
@@ -112,6 +134,7 @@
                   Ambulans
                 </q-item-section>
               </q-item>
+
               <q-item
                 active-class="tab-active"
                 :to="{name: 'driver'}"

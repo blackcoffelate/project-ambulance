@@ -50,15 +50,15 @@
 
                     <q-card-section horizontal>
                       <q-card-section class="fit">
-                        <q-icon name="phone" size="20px" color="blue-7" /> - {{ d.phones }}
-                        <q-icon name="alt_route" size="20px" color="blue-7" /> - {{ d.trayeks }}
+                        <q-icon name="phone" size="20px" color="blue-7" /> . {{ d.phones }}
+                        <q-icon name="alt_route" size="20px" color="blue-7" /> . {{ d.trayeks }}
                       </q-card-section>
 
                       <q-separator vertical />
 
                       <q-card-section class="fit">
-                        <q-icon name="local_shipping" size="20px" color="blue-7" /> - {{ d.types }}
-                        <q-icon name="turn_sharp_right" size="20px" color="blue-7" /> - {{ d.kilometerss }} Km
+                        <q-icon name="local_shipping" size="20px" color="blue-7" /> . {{ d.types }}
+                        <q-icon name="turn_sharp_right" size="20px" color="blue-7" /> . {{ d.kilometerss }} Km
                       </q-card-section>
                     </q-card-section>
                   </q-card>
@@ -234,8 +234,6 @@ export default {
               marker.types = marker.type
               this.km = marker.kilometers / 10000
               marker.kilometerss = Math.round(this.km)
-              // marker.kilometerss = marker.kilometers
-              // marker.icons = 'src/images/Marker-Ambulance.png'
               marker.icons = 'marker_blue.png'
               this.maps.push(marker)
             })

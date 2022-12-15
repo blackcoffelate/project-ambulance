@@ -68,14 +68,14 @@
           </template>
           <template v-slot:body="props">
             <q-tr :props="props">
-              <q-td key="kode_pesanan" :props="props">{{ props.row.kode_pesanan }}</q-td>
+              <q-td class="text-uppercase" key="kode_pesanan" :props="props">{{ props.row.kode_pesanan }}</q-td>
               <q-td class="text-uppercase" key="fullname" :props="props">{{ props.row.data_user.fullname }}</q-td>
               <q-td class="text-weight-bold text-blue-7" key="no_telpon" :props="props"><a target="_blank" style="text-decoration: none;" :href="'https://api.whatsapp.com/send?phone=' + this.phoneData">{{ props.row.data_user.no_telpon }}<q-tooltip>CHAT WHATSAPP</q-tooltip></a></q-td>
-              <q-td class="text-weight-bold text-blue-7" key="titik_jemput" :props="props"><a target="_blank" style="text-decoration: none;" :href="'https://www.google.com/maps/?q=' + props.row.titik_jemput_lat + ',' + props.row.titik_jemput_long">{{ props.row.titik_jemput }}</a></q-td>
-              <q-td class="text-weight-bold text-blue-7" key="tujuan" :props="props"><a target="_blank" style="text-decoration: none;" :href="'https://www.google.com/maps/?q=' + props.row.tujuan_lat + ',' + props.row.tujuan_long">{{ props.row.tujuan }}</a></q-td>
+              <q-td class="text-weight-bold text-blue-7" key="titik_jemput" :props="props"><a target="_blank" style="text-decoration: none;" :href="'https://www.google.com/maps/?q=' + props.row.titik_jemput_lat + ',' + props.row.titik_jemput_long">{{ props.row.titik_jemput.substring(0,10)+"..." }}</a></q-td>
+              <q-td class="text-weight-bold text-blue-7" key="tujuan" :props="props"><a target="_blank" style="text-decoration: none;" :href="'https://www.google.com/maps/?q=' + props.row.tujuan_lat + ',' + props.row.tujuan_long">{{ props.row.tujuan.substring(0,10)+"..." }}</a></q-td>
               <q-td key="tanggal" :props="props">{{ props.row.tanggal }}</q-td>
               <!-- <q-td key="tanggal" :props="props">{{this.$parseDate(props.row.tanggal).fullDate}}</q-td> -->
-              <q-td key="status" :props="props"><q-badge :color="(props.row.status == '0') ? 'orange-7' :(props.row.status == '1') ? 'green-7' : 'green-7'">{{`${ props.row.status == '0' ? 'MENUNGGU' : 'SELESAI' }`}}</q-badge></q-td>
+              <q-td key="status" :props="props"><q-badge :color="(props.row.status == '0') ? 'orange-7' :(props.row.status == '1') ? 'blue-7' : 'green-7'">{{`${ (props.row.status == '0') ? 'MENUNGGU' :(props.row.status == '1') ? 'PROSES' : 'SELESAI' }`}}</q-badge></q-td>
               <q-td key="aksi" :props="props">
               <div class="justify-center q-gutter-x-xs">
                 <q-btn color="blue-7" flat @click="drivers=true" dense>
@@ -136,6 +136,14 @@
                 :filter="filter"
                 hide-header
               >
+                <template v-slot:top>
+                  <div class="col">
+                    <div class="col-2 q-table__title text-subtitle2">
+                      KODE PESANAN : BLITS-001
+                    </div>
+                  </div>
+                </template>
+
                 <template v-slot:top-right>
                   <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
                     <template v-slot:append>

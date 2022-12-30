@@ -86,22 +86,6 @@
             </q-td>
             </q-tr>
           </template>
-          <template v-slot:body-cell-status="props">
-            <q-td :props="props">
-              <q-chip
-                :color="(props.row.status == 'Harga Diterima')?'green'
-                :(props.row.status == 'Batal'?'red':'grey')
-                "
-                text-color="white"
-                dense
-                align="center"
-                class="text-weight-bolder"
-                square
-                style="width: 100px"
-              >{{props.row.status}}
-              </q-chip>
-            </q-td>
-          </template>
         </q-table>
 
         <q-dialog v-model="drivers">

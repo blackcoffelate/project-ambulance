@@ -183,7 +183,6 @@ const columns = [
   { name: 'tanggal', align: 'left', label: 'TGL. PEMESANAN', field: 'tanggal', sortable: true },
   { name: 'status', align: 'left', label: 'STATUS', field: 'status', sortable: true },
   { name: 'aksi', align: 'center', label: 'DRIVER', field: 'aksi', sortable: true }
-  // { name: 'pilih_driver', align: 'center', label: 'Pilih Driver', field: 'pilih_driver', sortable: true }
 ]
 
 const data = []
@@ -253,7 +252,7 @@ export default {
           res.data.data.forEach((phonex) => {
             phonex.phones = phonex.data_user.no_telpon
             this.phoneData = phonex.phones.replace('0', '62')
-            console.log(this.phoneData)
+            // console.log(this.phoneData)
           })
         })
     },
@@ -261,7 +260,7 @@ export default {
       // this.$axios.get('http://localhost:5050/drivers/get-driver', createToken())
       this.$axios.get('http://192.168.43.172:5050/drivers/get-driver', createToken())
         .then((res) => {
-          console.log(res)
+          // console.log(res)
           if (res.data.status) {
             this.optionDriver = res.data.data
             // this.optionDriver = res.data.data.forEach((optionDriver) => {

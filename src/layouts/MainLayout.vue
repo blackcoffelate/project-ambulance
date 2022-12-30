@@ -23,6 +23,7 @@
                   <div class="text-h6 text-grey-7">Informasi Terbaru</div>
                   <div class="text-subtitle text-grey-7">Daftar informasi terbaru system</div>
                 </q-card-section>
+
                 <q-card-section>
                   <messages></messages>
                 </q-card-section>
@@ -30,7 +31,7 @@
                 <q-separator />
 
                 <q-card-actions vertical>
-                  <q-btn flat text-color="blue-7">VIEW ALL</q-btn>
+                  <q-btn :to="{ name: 'order' }" flat text-color="blue-7">VIEW ALL</q-btn>
                 </q-card-actions>
               </q-card>
             </q-menu>
@@ -195,7 +196,7 @@
 
 <script>
 import Messages from './Messages'
-// import createToken from 'src/boot/create_token'
+import createToken from 'src/boot/create_token'
 export default ({
   name: 'MainLayout',
   components: {
@@ -204,26 +205,28 @@ export default ({
   data () {
     return {
       leftDrawerOpen: false,
-      username: null
-      // dataUser: this.$q.localStorage.getItem('dataUser')
+      username: null,
+      dataUser: this.$q.localStorage.getItem('dataUser')
+    }
+  },
+  created () {
+    this.getPesanan()
+  },
+  methods: {
+    getPesanan () {
+      // this.$axios.get('http://localhost:5050/pesanan/get-pesanan', createToken())
+      this.$axios.get('http://192.168.43.172:5050/pesanan/get-pesanan', createToken())
+        .then((res) => {
+          console.log(res)
+          this.data = res.data.data
+          res.data.data.forEach((phonex) => {
+            phonex.phones = phonex.data_user.no_telpon
+            this.phoneData = phonex.phones.replace('0', '62')
+            console.log(this.phoneData)
+          })
+        })
     }
   }
-  // methods: {
-  //   getUser () {
-  //     this.$axios.get('http://localhost:5050/users/get-all', {
-  //       username: this.username,
-  //       email: this.email,
-  //       no_telpon: this.no_telpon
-  //     }, createToken())
-  //       .then((res) => {
-  //         this.data = res.data.data
-  //         this.username = this.data[0].username
-  //         this.email = this.data[0].email
-  //         this.no_telpon = this.data[0].no_telpon
-  //         console.log(this.data)
-  //       })
-  //   }
-  // }
 })
 </script>
 <style>
